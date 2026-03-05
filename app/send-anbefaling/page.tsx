@@ -9,17 +9,17 @@ const steg = [
   {
     tittel: "Fyll ut skjemaet",
     beskrivelse:
-      "Fortell oss hvem du anbefaler, hva de hjalp deg med, og skriv en kort tekst vi kan publisere. Det tar under 3 minutter.",
+      "Fortell oss hvem du anbefaler, hva de hjalp deg med, og skriv en kort tekst vi kan publisere.",
   },
   {
     tittel: "Robin ser over",
     beskrivelse:
-      "Vi leser gjennom alle anbefalinger før de publiseres. Bare ekte erfaringer kommer på.",
+      "Vi leser gjennom og godkjenner alle anbefalinger før de publiseres.",
   },
   {
     tittel: "Anbefalingen ligger ute",
     beskrivelse:
-      "Fagpersonen du anbefalte får sin egen side på Robin — synlig for alle naboer som leter.",
+      "Firmaet du anbefaler får sin egen «firmaboks» med anbefalingen — synlig for alle som leter.",
   },
 ];
 
