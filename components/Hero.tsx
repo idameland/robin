@@ -1,6 +1,6 @@
 export default function Hero() {
   return (
-    <section className="px-6 pt-14 pb-10">
+    <section className="px-6 pt-14 pb-6 md:pb-10">
       <div className="max-w-5xl mx-auto">
         <h1
           className="text-4xl md:text-5xl text-petroleum leading-tight mb-4"
