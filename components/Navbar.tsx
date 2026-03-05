@@ -20,7 +20,7 @@ export default function Navbar() {
             Robin
           </span>
         </a>
-        <Link href="/anbefal" className="bg-card-yellow text-petroleum text-sm font-medium px-5 py-2 rounded hover:brightness-95 transition-all tracking-wide">
+        <Link href="/send-anbefaling" className="bg-card-yellow text-petroleum text-sm font-medium px-5 py-2 rounded hover:brightness-95 transition-all tracking-wide">
           Send inn anbefaling
         </Link>
       </div>
