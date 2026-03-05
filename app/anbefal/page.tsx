@@ -48,7 +48,7 @@ function StepIndicator({ step }: { step: 1 | 2 }) {
     { n: 3, label: "Bekreftelse" },
   ];
   return (
-    <div className="flex items-center mb-14">
+    <div className="flex items-center mb-14 overflow-x-auto">
       {steps.map((s, i) => {
         const done = s.n < step;
         const active = s.n === step;
@@ -314,7 +314,7 @@ export default function AnbefalPage() {
                 />
               </Field>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Field label="Fagområde">
                   <select
                     value={fag}
@@ -440,7 +440,7 @@ export default function AnbefalPage() {
 
               {recommenderType === "privat" ? (
                 <div>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <Field label="Fornavn" required>
                       <input
                         type="text"
@@ -480,7 +480,7 @@ export default function AnbefalPage() {
                     note="Firmainfo hentes direkte fra Brønnøysundregistrene."
                   >
                     <div className="relative" ref={brregWrapperRef}>
-                      <div className="flex gap-2">
+                      <div className="flex flex-col sm:flex-row gap-2">
                         <input
                           type="text"
                           value={brregQuery}
@@ -581,7 +581,7 @@ export default function AnbefalPage() {
                   Vi sender en bekreftelseslenke. Anbefalingen publiseres ikke
                   før du har bekreftet. E-posten din vises aldri offentlig.
                 </p>
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2">
                   <input
                     type="email"
                     value={email}
