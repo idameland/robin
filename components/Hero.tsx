@@ -32,19 +32,9 @@ function MessengerBoble({ onSøk }: { onSøk: (q: string) => void }) {
 
   return (
     <div style={{ marginLeft: "24px", marginBottom: "32px" }}>
-      {/* Avsendernavn */}
-      <p style={{
-        fontFamily: "-apple-system, 'SF Pro Text', sans-serif",
-        fontSize: "13px",
-        color: "#8E8E93",
-        paddingLeft: "14px",
-        marginBottom: "4px",
-      }}>
-        Nabo Rannveig
-      </p>
-
       {/* Avatar + boble */}
       <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+
         {/* Avatar */}
         <div style={{ width: 38, height: 38, borderRadius: "50%", overflow: "hidden", flexShrink: 0, background: "#1A1612" }}>
           <Image
@@ -59,6 +49,17 @@ function MessengerBoble({ onSøk }: { onSøk: (q: string) => void }) {
             }}
           />
         </div>
+
+        {/* Navn + boble */}
+        <div>
+        <p style={{
+          fontFamily: "-apple-system, 'SF Pro Text', sans-serif",
+          fontSize: "13px",
+          color: "#8E8E93",
+          marginBottom: "4px",
+        }}>
+          Nabo Rannveig
+        </p>
 
         {/* Boble */}
         <div style={{
@@ -101,6 +102,7 @@ function MessengerBoble({ onSøk }: { onSøk: (q: string) => void }) {
               )}
             </>
           )}
+        </div>
         </div>
       </div>
 
