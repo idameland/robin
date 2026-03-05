@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 const BIRD_SIZE   = 28;
@@ -39,6 +40,7 @@ function BirdSVG({ wingRef }: { wingRef: React.RefObject<SVGGElement | null> }) 
 }
 
 export default function Navbar() {
+  const pathname    = usePathname();
   const navRef      = useRef<HTMLElement>(null);
   const logoRef     = useRef<HTMLAnchorElement>(null);
   const logoBirdRef = useRef<SVGGElement>(null);
@@ -53,6 +55,7 @@ export default function Navbar() {
     const btn  = btnRef.current;
     const bird = birdRef.current;
     if (!nav || !logo || !btn || !bird) return;
+    if (pathname !== "/") return;
     // Non-null aliases for use inside nested async functions
     const navEl = nav as HTMLElement;
     const logoEl = logo as HTMLAnchorElement;
