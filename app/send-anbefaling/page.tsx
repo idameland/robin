@@ -36,8 +36,7 @@ export default function SendAnbefalingPage() {
             className="text-[40px] md:text-[52px] leading-[1.05] tracking-[-1px] font-normal text-petroleum mb-5"
             style={serif}
           >
-            Del det du vet —{" "}
-            <em>naboene leter</em>
+            Sharing is caring!
           </h1>
           <p className="text-[15px] text-petroleum-muted leading-[1.8] max-w-[480px]">
             Har du brukt en håndverker eller annen fagperson du er fornøyd med?
