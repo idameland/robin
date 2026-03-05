@@ -39,7 +39,7 @@ export default function Home() {
             className="text-[28px] md:text-[36px] text-petroleum leading-tight mb-6"
             style={{ fontFamily: "var(--font-playfair)", fontWeight: 400 }}
           >
-            Naboer har kvitret om disse flinke fagfolkene
+            Anbefalinger fra noen kvitrete naboer
           </h2>
 
           <div className="flex gap-2 flex-wrap mb-8">
