@@ -122,16 +122,21 @@ function MessengerBoble() {
 
 export default function Hero() {
   return (
-    <section className="px-6 pt-10 pb-0 md:pb-4">
+    <section className="px-6 pt-6 pb-0 md:pb-4">
       <div className="max-w-5xl mx-auto">
-        <h1
-          className="text-4xl md:text-5xl text-petroleum leading-tight mb-4"
-          style={{ fontFamily: "var(--font-playfair)", fontWeight: 400 }}
+        <div
+          className="px-5 py-6 md:px-6 md:py-7"
+          style={{ background: "#F5F2EC", borderRadius: "12px" }}
         >
-          Finn fagfolk du kan stole på
-        </h1>
+          <h1
+            className="text-4xl md:text-5xl text-petroleum leading-tight mb-4"
+            style={{ fontFamily: "var(--font-playfair)", fontWeight: 400 }}
+          >
+            Finn fagfolk du kan stole på
+          </h1>
 
-        <MessengerBoble />
+          <MessengerBoble />
+        </div>
       </div>
     </section>
   );
