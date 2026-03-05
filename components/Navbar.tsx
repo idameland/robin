@@ -53,6 +53,11 @@ export default function Navbar() {
     const btn  = btnRef.current;
     const bird = birdRef.current;
     if (!nav || !logo || !btn || !bird) return;
+    // Non-null aliases for use inside nested async functions
+    const navEl = nav as HTMLElement;
+    const logoEl = logo as HTMLAnchorElement;
+    const btnEl = btn as HTMLDivElement;
+    const birdEl = bird as HTMLDivElement;
 
     async function anim(
       el: HTMLElement | SVGElement,
@@ -104,7 +109,7 @@ export default function Navbar() {
     }
 
     async function bump(atX: number) {
-      bird.animate(
+      birdEl.animate(
         [
           { transform: `translateX(${atX}px) rotate(0deg)`            },
           { transform: `translateX(${atX - 8}px) rotate(8deg)`,  offset: 0.30 },
@@ -114,7 +119,7 @@ export default function Navbar() {
         ],
         { duration: 800, easing: "ease-in-out", fill: "forwards" }
       );
-      btn.animate(
+      btnEl.animate(
         [
           { transform: "translateX(0px)"  },
           { transform: "translateX(7px)",  offset: 0.08 },
@@ -131,22 +136,22 @@ export default function Navbar() {
     }
 
     async function runAnimation() {
-      const navRect  = nav.getBoundingClientRect();
-      const logoRect = logo.getBoundingClientRect();
-      const btnRect  = btn.getBoundingClientRect();
+      const navRect  = navEl.getBoundingClientRect();
+      const logoRect = logoEl.getBoundingClientRect();
+      const btnRect  = btnEl.getBoundingClientRect();
 
       const startX = logoRect.left - navRect.left + logoRect.width / 2 - BIRD_SIZE / 2;
       const endX   = btnRect.left  - navRect.left - BIRD_SIZE - 4;
 
       // Appear at logo, fade out logo bird
-      bird.style.transform = `translateX(${startX}px)`;
-      bird.style.opacity   = "1";
+      birdEl.style.transform = `translateX(${startX}px)`;
+      birdEl.style.opacity   = "1";
       logoBirdRef.current?.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 200, fill: "forwards" });
       await delay(400);
 
       // Fly to button
       const wingAnim = startWingFlap();
-      await anim(bird, flyKeyframes(startX, endX, false), { duration: FLY_DURATION, easing: "linear" });
+      await anim(birdEl, flyKeyframes(startX, endX, false), { duration: FLY_DURATION, easing: "linear" });
       wingAnim?.cancel();
 
       // Bump twice
@@ -156,19 +161,19 @@ export default function Navbar() {
       await delay(350);
 
       // Flip around to face left
-      await anim(bird, [
+      await anim(birdEl, [
         { transform: `translateX(${endX}px) scaleX(1)`  },
         { transform: `translateX(${endX}px) scaleX(-1)` },
       ], { duration: 150, easing: "ease-in-out" });
 
       // Fly back to logo
       const wingAnim2 = startWingFlap();
-      await anim(bird, flyKeyframes(endX, startX, true), { duration: FLY_DURATION, easing: "linear" });
+      await anim(birdEl, flyKeyframes(endX, startX, true), { duration: FLY_DURATION, easing: "linear" });
       wingAnim2?.cancel();
 
       // Land – fade logo bird back in, fade out animated bird
       logoBirdRef.current?.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300, fill: "forwards" });
-      await anim(bird, [{ opacity: 1 }, { opacity: 0 }], { duration: 250 });
+      await anim(birdEl, [{ opacity: 1 }, { opacity: 0 }], { duration: 250 });
     }
 
     runAnimation();
