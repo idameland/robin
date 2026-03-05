@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import { AnbefalingKort, AnbefalingModal } from "@/components/AnbefalingKort";
@@ -12,6 +12,23 @@ export default function Home() {
   const [aktiv, setAktiv] = useState("Alle");
   const [valgt, setValgt] = useState<Anbefaling | null>(null);
   const [søk, setSøk] = useState("");
+
+  const FULL_TEXT = "«En liten fugl fortalte meg om…»";
+  const [typewriterTekst, setTypewriterTekst] = useState("");
+  const [ferdig, setFerdig] = useState(false);
+
+  useEffect(() => {
+    let i = 0;
+    const interval = setInterval(() => {
+      i++;
+      setTypewriterTekst(FULL_TEXT.slice(0, i));
+      if (i === FULL_TEXT.length) {
+        clearInterval(interval);
+        setFerdig(true);
+      }
+    }, 45);
+    return () => clearInterval(interval);
+  }, []);
 
   const filtrert = anbefalinger
     .filter((a) => aktiv === "Alle" || a.kategori === aktiv)
@@ -41,7 +58,10 @@ export default function Home() {
             className="text-[32px] md:text-[38px] font-normal text-petroleum mb-6"
             style={serif}
           >
-            «En liten fugl fortalte meg om…»
+            {typewriterTekst}
+            {!ferdig && (
+              <span className="animate-pulse">|</span>
+            )}
           </h2>
           <p className="text-petroleum-muted text-base mb-6 -mt-2">
             Anbefalinger fra naboer i Nordre Aker, Oslo
