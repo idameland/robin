@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Robin — Anbefal en fagperson</title>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,600;0,700;1,600;1,700&family=Roboto+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream:   #F5F2EC;
+    --white:   #FFFFFF;
+    --ink:     #1A1612;
+    --ink-l:   #3D3530;
+    --ink-m:   #6B6058;
+    --ink-f:   #9A9088;
+    --rule:    #E2DDD7;
+    --c1:      #004E64;
+    --c2:      #00A5CF;
+    --c3:      #9FFFCB;
+    --tag-bg:  #E0F9F0;
+    --error:   #C0392B;
+    --success: #1A7A4A;
+    --radius:  8px;
+    --radius-pill: 100px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Roboto Mono', monospace;
+    background: var(--white);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 48px;
+    background: var(--white);
+    border-bottom: 1px solid var(--rule);
+    position: sticky; top: 0; z-index: 20;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-logo-text {
+    font-family: 'Newsreader', serif;
+    font-size: 26px; font-weight: 700;
+    color: var(--ink); letter-spacing: -0.3px;
+  }
+  .nav-links { display: flex; gap: 2px; }
+  .nav-link {
+    padding: 7px 14px; border-radius: 6px;
+    font-size: 13px; font-weight: 600; color: var(--ink-m);
+    text-decoration: none; transition: color 0.15s;
+  }
+  .nav-link:hover { color: var(--ink); }
+  .nav-cta {
+    padding: 9px 20px; background: var(--ink); color: var(--white);
+    border-radius: var(--radius); font-size: 13px; font-weight: 700;
+    text-decoration: none; transition: background 0.15s;
+  }
+  .nav-cta:hover { background: var(--c1); }
+
+  /* LAYOUT */
+  main { max-width: 580px; margin: 0 auto; padding: 64px 24px 120px; }
+
+  /* PAGE HEADER */
+  .page-header { margin-bottom: 56px; }
+  .page-header h1 {
+    font-family: 'Newsreader', serif;
+    font-size: 52px; line-height: 1.05;
+    letter-spacing: -1px; font-weight: 700;
+    margin-bottom: 16px;
+  }
+  .page-header h1 em { font-style: italic; }
+  .page-header p {
+    color: var(--ink-l); font-size: 15px;
+    line-height: 1.7; max-width: 440px;
+  }
+
+  /* STEP INDICATOR */
+  .step-track {
+    display: flex; align-items: center;
+    margin-bottom: 56px;
+  }
+  .step-item {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--ink-m); transition: color 0.2s;
+  }
+  .step-item.active { color: var(--ink); }
+  .step-item.done { color: var(--c1); }
+  .step-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    border: 1.5px solid var(--ink-m);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 11px; font-weight: 700;
+    color: var(--ink-m); background: var(--white);
+    flex-shrink: 0; transition: all 0.2s;
+  }
+  .step-item.active .step-num {
+    background: var(--c3); border-color: var(--c3); color: var(--ink);
+  }
+  .step-item.done .step-num {
+    background: var(--ink); border-color: var(--ink); color: var(--white);
+  }
+  .step-line { flex: 1; height: 1px; background: var(--rule); margin: 0 16px; }
+
+  /* SECTION */
+  .section { margin-bottom: 52px; }
+  .section-heading {
+    font-family: 'Newsreader', serif;
+    font-size: 22px; font-weight: 600; letter-spacing: -0.2px;
+    margin-bottom: 28px; padding-bottom: 16px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* FIELDS */
+  .field { margin-bottom: 24px; }
+  .field:last-child { margin-bottom: 0; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  label {
+    display: block; font-size: 13px; font-weight: 600;
+    margin-bottom: 8px; color: var(--ink);
+  }
+  .req { color: var(--error); margin-left: 2px; }
+  .label-hint { font-size: 12px; color: var(--ink-f); font-weight: 400; margin-left: 6px; }
+
+  input[type="text"],
+  input[type="email"],
+  select,
+  textarea {
+    width: 100%; padding: 12px 15px;
+    border: 1.5px solid var(--rule); border-radius: var(--radius);
+    font-family: 'Roboto Mono', monospace; font-size: 14px;
+    color: var(--ink); background: var(--white);
+    outline: none; appearance: none; transition: border-color 0.15s;
+  }
+  input:focus, select:focus, textarea:focus { border-color: var(--ink); }
+  input::placeholder, textarea::placeholder { color: var(--ink-f); }
+  textarea { resize: vertical; min-height: 130px; line-height: 1.7; }
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B6058' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 14px center;
+    padding-right: 36px; cursor: pointer;
+  }
+  .field-note { font-size: 12px; color: var(--ink-m); margin-top: 8px; line-height: 1.55; }
+
+  /* PILLS */
+  .pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill {
+    padding: 8px 18px; border-radius: var(--radius-pill);
+    border: 1.5px solid var(--rule); font-size: 13px; font-weight: 600;
+    background: var(--white); color: var(--ink-m);
+    cursor: pointer; transition: all 0.12s; white-space: nowrap;
+  }
+  .pill:hover { border-color: var(--ink-m); color: var(--ink); }
+  .pill.selected { background: var(--ink); color: var(--white); border-color: var(--ink); }
+
+  /* STARS */
+  .stars { display: flex; gap: 6px; }
+  .star {
+    font-size: 32px; cursor: pointer; color: var(--rule);
+    transition: color 0.1s, transform 0.1s; user-select: none; line-height: 1;
+  }
+  .star.filled { color: #E8A020; }
+  .star:hover { transform: scale(1.12); }
+  .star-label { font-size: 12px; color: var(--ink-m); margin-top: 10px; font-weight: 500; }
+
+  /* TYPE TOGGLE */
+  .type-toggle {
+    display: inline-flex;
+    border: 1.5px solid var(--rule); border-radius: var(--radius);
+    overflow: hidden; margin-bottom: 28px;
+  }
+  .type-btn {
+    padding: 10px 24px; font-family: 'Roboto Mono', monospace;
+    font-size: 13px; font-weight: 700; border: none;
+    background: var(--white); color: var(--ink-m);
+    cursor: pointer; border-right: 1.5px solid var(--rule);
+    transition: all 0.12s;
+  }
+  .type-btn:last-child { border-right: none; }
+  .type-btn.active { background: var(--ink); color: var(--white); }
+
+  /* BRREG */
+  .brreg-wrapper { position: relative; }
+  .brreg-row { display: flex; gap: 8px; }
+  .brreg-row input { flex: 1; }
+  .brreg-btn {
+    padding: 12px 18px; background: var(--ink); color: var(--white);
+    border: none; border-radius: var(--radius);
+    font-family: 'Roboto Mono', monospace; font-size: 13px; font-weight: 700;
+    cursor: pointer; white-space: nowrap; transition: opacity 0.15s;
+  }
+  .brreg-btn:hover { opacity: 0.8; }
+  .brreg-btn.loading { opacity: 0.5; cursor: default; }
+  .brreg-dropdown {
+    position: absolute; left: 0; right: 0; top: calc(100% + 4px);
+    background: var(--white); border: 1.5px solid var(--rule);
+    border-radius: var(--radius); overflow: hidden;
+    max-height: 240px; overflow-y: auto; display: none; z-index: 30;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.10);
+  }
+  .brreg-dropdown.open { display: block; }
+  .brreg-item {
+    padding: 12px 16px; cursor: pointer;
+    border-bottom: 1px solid var(--rule); transition: background 0.1s;
+  }
+  .brreg-item:last-child { border-bottom: none; }
+  .brreg-item:hover { background: var(--cream); }
+  .brreg-item-name { font-size: 14px; font-weight: 600; }
+  .brreg-item-meta { font-size: 12px; color: var(--ink-m); margin-top: 3px; }
+  .brreg-confirmed {
+    display: none; margin-top: 10px;
+    background: var(--tag-bg); border: 1.5px solid var(--c3);
+    border-radius: var(--radius); padding: 12px 16px;
+    align-items: center; gap: 12px;
+  }
+  .brreg-confirmed.visible { display: flex; }
+  .brreg-confirmed-info { flex: 1; }
+  .brreg-confirmed-info strong { font-size: 14px; font-weight: 700; display: block; }
+  .brreg-confirmed-info span { font-size: 12px; color: var(--ink-m); }
+  .brreg-clear-btn {
+    background: none; border: none; font-size: 16px;
+    cursor: pointer; color: var(--ink-f); padding: 2px 6px;
+  }
+  .brreg-clear-btn:hover { color: var(--error); }
+
+  /* EMAIL VERIFY */
+  .verify-box {
+    background: var(--cream);
+    border-radius: var(--radius); padding: 24px;
+  }
+  .verify-box-title {
+    font-family: 'Newsreader', serif;
+    font-size: 18px; font-weight: 600; margin-bottom: 8px;
+  }
+  .verify-box p { font-size: 13px; color: var(--ink-m); line-height: 1.6; margin-bottom: 16px; }
+  .verify-row { display: flex; gap: 8px; }
+  .verify-row input { flex: 1; background: var(--white); }
+  .verify-send-btn {
+    padding: 12px 18px; background: var(--ink); color: var(--white);
+    border: none; border-radius: var(--radius);
+    font-family: 'Roboto Mono', monospace; font-size: 13px; font-weight: 700;
+    cursor: pointer; white-space: nowrap; transition: opacity 0.15s;
+  }
+  .verify-send-btn:disabled { opacity: 0.5; cursor: default; }
+  .verify-note { font-size: 12px; color: var(--ink-m); margin-top: 10px; }
+
+  /* CHECKBOX */
+  .check-label { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; }
+  .check-label input[type="checkbox"] {
+    width: 18px; height: 18px; flex-shrink: 0;
+    margin-top: 1px; accent-color: var(--ink); cursor: pointer;
+  }
+  .check-label span { font-size: 13px; color: var(--ink-m); line-height: 1.6; }
+
+  /* BUTTONS */
+  .btn-primary {
+    width: 100%; padding: 16px;
+    background: var(--ink); color: var(--white);
+    border: none; border-radius: var(--radius);
+    font-family: 'Roboto Mono', monospace; font-size: 15px; font-weight: 700;
+    cursor: pointer; transition: background 0.15s;
+  }
+  .btn-primary:hover { background: var(--c1); }
+  .btn-ghost {
+    padding: 15px 24px; background: var(--white); color: var(--ink);
+    border: 1.5px solid var(--rule); border-radius: var(--radius);
+    font-family: 'Roboto Mono', monospace; font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: border-color 0.15s; flex-shrink: 0;
+  }
+  .btn-ghost:hover { border-color: var(--ink); }
+  .btn-row { display: flex; gap: 10px; }
+  .btn-row .btn-primary { flex: 1; }
+  .submit-note {
+    text-align: center; font-size: 12px;
+    color: var(--ink-f); margin-top: 16px; line-height: 1.65;
+  }
+
+  /* SUCCESS */
+  #successPage { display: none; }
+  .success-wrap {
+    max-width: 480px; margin: 0 auto;
+    padding: 100px 24px; text-align: center;
+  }
+  .success-icon {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: var(--c3); display: flex; align-items: center;
+    justify-content: center; font-size: 32px; margin: 0 auto 28px;
+  }
+  .success-wrap h2 {
+    font-family: 'Newsreader', serif;
+    font-size: 40px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px;
+  }
+  .success-wrap p {
+    color: var(--ink-m); font-size: 15px;
+    line-height: 1.7; max-width: 360px; margin: 0 auto 36px;
+  }
+  .success-back {
+    display: inline-block; padding: 14px 32px;
+    background: var(--ink); color: var(--white);
+    border-radius: var(--radius); font-weight: 700;
+    font-size: 14px; text-decoration: none; transition: background 0.15s;
+  }
+  .success-back:hover { background: var(--c1); }
+
+  .spinner {
+    display: inline-block; width: 11px; height: 11px;
+    border: 2px solid rgba(255,255,255,0.35); border-top-color: white;
+    border-radius: 50%; animation: spin 0.7s linear infinite;
+    margin-right: 5px; vertical-align: middle;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media (max-width: 540px) {
+    nav { padding: 14px 20px; }
+    .nav-links { display: none; }
+    main { padding: 40px 20px 100px; }
+    .page-header h1 { font-size: 38px; }
+    .field-row { grid-template-columns: 1fr; gap: 16px; }
+    .brreg-row { flex-direction: column; }
+    .brreg-btn { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="robin-forside.html">
+    <svg width="32" height="30" viewBox="0 0 38 36" fill="none">
+      <ellipse cx="17" cy="24" rx="12" ry="10" fill="#4A3828"/>
+      <circle cx="19" cy="12" r="10" fill="#4A3828"/>
+      <path d="M9 17 Q6 22 9 27 Q13 32 19 31 Q26 30 29 24 Q32 19 27 15 Q23 11 18 12 Q12 12 9 17Z" fill="#C8400E"/>
+      <path d="M13 18 Q11 22 13 26 Q16 29 21 28 Q25 27 26 23 Q21 16 17 15 Q14 14 13 18Z" fill="#D8501A" opacity=".4"/>
+      <ellipse cx="20" cy="28" rx="5" ry="4" fill="#E8D8C0"/>
+      <path d="M7 23 Q1 27 3 34 Q10 30 19 32" fill="#3A2818"/>
+      <circle cx="25" cy="9" r="3" fill="#1A1208"/>
+      <circle cx="25.8" cy="8.2" r="1" fill="white"/>
+      <path d="M28 10 L35 8 L28 14 Z" fill="#3A3020"/>
+      <line x1="16" y1="33" x2="12" y2="36" stroke="#3A2818" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="21" y1="33" x2="25" y2="36" stroke="#3A2818" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    <span class="nav-logo-text">Robin</span>
+  </a>
+  <div class="nav-links">
+    <a class="nav-link" href="robin-forside.html">Forside</a>
+    <a class="nav-link" href="#">Fagfolk</a>
+    <a class="nav-link" href="#">Om Robin</a>
+  </div>
+  <a class="nav-cta" href="#">Send anbefaling</a>
+</nav>
+
+<div id="formPage">
+<main>
+
+  <div class="page-header">
+    <h1>Anbefal en <em>fagperson</em></h1>
+    <p>Vil du anbefale en håndverker eller annen fagperson du er fornøyd med? Del erfaringen din, det er gull verdt for andre som leter.</p>
+  </div>
+
+  <div class="step-track">
+    <div class="step-item active" id="sdot1">
+      <div class="step-num" id="dot1">1</div>
+      Bedriften
+    </div>
+    <div class="step-line"></div>
+    <div class="step-item" id="sdot2">
+      <div class="step-num" id="dot2">2</div>
+      Om deg
+    </div>
+    <div class="step-line"></div>
+    <div class="step-item" id="sdot3">
+      <div class="step-num" id="dot3">3</div>
+      Bekreftelse
+    </div>
+  </div>
+
+  <!-- STEG 1 -->
+  <div id="steg1">
+
+    <div class="section">
+      <div class="section-heading">Hvem anbefaler du?</div>
+
+      <div class="field">
+        <label>Navn <span class="req">*</span></label>
+        <input type="text" id="fagpersonNavn" placeholder="Fullt navn på bedriften">
+      </div>
+
+      <div class="field field-row">
+        <div>
+          <label>Fag</label>
+          <select>
+            <option value="">Velg fag...</option>
+            <option>Snekker</option>
+            <option>Elektriker</option>
+            <option>Rørlegger</option>
+            <option>Maler</option>
+            <option>Flislegger</option>
+            <option>Tømrer</option>
+            <option>Låsesmed</option>
+            <option>Annet</option>
+          </select>
+        </div>
+        <div>
+          <label>Din bydel</label>
+          <select>
+            <option value="">Velg bydel...</option>
+            <option>Nordre Aker</option>
+            <option>Sagene</option>
+            <option>Grünerløkka</option>
+            <option>Frogner</option>
+            <option>St. Hanshaugen</option>
+            <option>Annen bydel</option>
+          </select>
+        </div>
+      </div>
+      <p class="field-note">Finnes ikke bedriften i Robin fra før, legger vi den til etter godkjenning.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-heading">Din anbefaling</div>
+
+      <div class="field">
+        <label>Hva ble gjort?</label>
+        <input type="text" placeholder="F.eks. flislagt bad, malt stue, lagt nytt gulv...">
+      </div>
+
+      <div class="field">
+        <label>Fortell hva du opplevde <span class="req">*</span></label>
+        <textarea id="anbefalingTekst" placeholder="Hva gjorde bedriften, og hvorfor anbefaler du dem til naboene?" oninput="updateWordCount()"></textarea>
+        <p class="field-note" id="wordCount">Minst 20 ord</p>
+      </div>
+
+      <div class="field">
+        <label>Karakter</label>
+        <div class="stars" id="starRow">
+          <span class="star filled" onclick="setStar(1)">★</span>
+          <span class="star filled" onclick="setStar(2)">★</span>
+          <span class="star filled" onclick="setStar(3)">★</span>
+          <span class="star filled" onclick="setStar(4)">★</span>
+          <span class="star" onclick="setStar(5)">★</span>
+        </div>
+        <p class="star-label" id="starLabel">4 av 5 stjerner</p>
+      </div>
+
+      <div class="field">
+        <label>Omtrent når? <span class="label-hint">Valgfritt</span></label>
+        <select>
+          <option value="">Velg tidsrom...</option>
+          <option>Siste 3 måneder</option>
+          <option>Siste 6 måneder</option>
+          <option>I år</option>
+          <option>For 1–2 år siden</option>
+          <option>For mer enn 2 år siden</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="btn-primary" onclick="goToStep2()">Neste →</button>
+
+  </div>
+
+  <!-- STEG 2 -->
+  <div id="steg2" style="display:none">
+
+    <div class="section">
+      <div class="section-heading">Du anbefaler som</div>
+
+      <div class="type-toggle">
+        <button class="type-btn active" id="btnPrivat" onclick="setType('privat')">Privatperson</button>
+        <button class="type-btn" id="btnBedrift" onclick="setType('bedrift')">Bedrift</button>
+      </div>
+
+      <div id="privatFields">
+        <div class="field field-row">
+          <div>
+            <label>Fornavn <span class="req">*</span></label>
+            <input type="text" placeholder="Fornavn">
+          </div>
+          <div>
+            <label>Etternavn <span class="req">*</span></label>
+            <input type="text" placeholder="Etternavn">
+          </div>
+        </div>
+        <div class="field">
+          <label>Din bydel <span class="label-hint">Valgfritt</span></label>
+          <select>
+            <option value="">Velg bydel...</option>
+            <option>Nordre Aker</option>
+            <option>Sagene</option>
+            <option>Grünerløkka</option>
+            <option>Frogner</option>
+            <option>St. Hanshaugen</option>
+            <option>Annen bydel</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="bedriftFields" style="display:none">
+        <div class="field">
+          <label>Firmanavn <span class="req">*</span></label>
+          <div class="brreg-wrapper">
+            <div class="brreg-row">
+              <input type="text" id="brregInput" placeholder="Skriv firmanavn eller org.nr..." oninput="onBrregInput()" onkeydown="onBrregKey(event)">
+              <button class="brreg-btn" id="brregBtn" onclick="searchBrreg()">Søk i Brreg</button>
+            </div>
+            <div class="brreg-dropdown" id="brregResults"></div>
+            <div class="brreg-confirmed" id="brregSelected">
+              <div class="brreg-confirmed-info">
+                <strong id="selectedNavn">—</strong>
+                <span id="selectedMeta">—</span>
+              </div>
+              <button class="brreg-clear-btn" onclick="clearBrreg()">✕</button>
+            </div>
+          </div>
+          <p class="field-note">Firmainfo hentes direkte fra Brønnøysundregistrene.</p>
+        </div>
+        <div class="field">
+          <label>Din rolle <span class="label-hint">Valgfritt</span></label>
+          <input type="text" placeholder="F.eks. daglig leder, prosjektleder...">
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-heading">Verifiser e-posten din</div>
+
+      <div class="field">
+        <div class="verify-box">
+          <div class="verify-box-title">Bekreft din e-post</div>
+          <p>Vi sender en bekreftelseslenke. Anbefalingen publiseres ikke før du har bekreftet. E-posten din vises aldri offentlig.</p>
+          <div class="verify-row">
+            <input type="email" id="emailInput" placeholder="din@epost.no">
+            <button class="verify-send-btn" id="sendEmailBtn" onclick="sendVerification()">Send lenke</button>
+          </div>
+          <p class="verify-note" id="emailNote">🔒 E-posten din deles aldri med andre</p>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="check-label">
+          <input type="checkbox" id="bekreftCheck">
+          <span>Jeg bekrefter at anbefalingen er basert på egne, ekte erfaringer med denne bedriften.</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-ghost" onclick="goToStep1()">← Tilbake</button>
+      <button class="btn-primary" onclick="submitForm()">Send anbefaling →</button>
+    </div>
+    <p class="submit-note">Du mottar e-post for bekreftelse. Robin godkjenner manuelt før publisering.</p>
+
+  </div>
+
+</main>
+</div>
+
+<!-- SUCCESS -->
+<div id="successPage">
+  <div class="success-wrap">
+    <div class="success-icon">🐦</div>
+    <h2>Takk for anbefalingen!</h2>
+    <p>Vi har sendt en bekreftelseslenke til <strong id="confirmedEmail"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4024292e0025302f33346e2e2f">[email&#160;protected]</a></strong>. Anbefalingen publiseres etter bekreftelse og manuell godkjenning fra Robin.</p>
+    <a href="robin-forside.html" class="success-back">← Tilbake til forsiden</a>
+  </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  let currentStar = 4;
+  let selectedBrreg = null;
+  let brregTimeout = null;
+
+  function togglePill(el) { el.classList.toggle('selected'); }
+
+  function setType(type) {
+    document.getElementById('btnPrivat').className = 'type-btn' + (type === 'privat' ? ' active' : '');
+    document.getElementById('btnBedrift').className = 'type-btn' + (type === 'bedrift' ? ' active' : '');
+    document.getElementById('privatFields').style.display = type === 'privat' ? 'block' : 'none';
+    document.getElementById('bedriftFields').style.display = type === 'bedrift' ? 'block' : 'none';
+  }
+
+  function setStar(val) {
+    currentStar = val;
+    document.querySelectorAll('#starRow .star').forEach((s, i) => s.classList.toggle('filled', i < val));
+    const labels = ['','1 av 5','2 av 5','3 av 5','4 av 5','5 av 5 — Anbefales sterkt! 🌟'];
+    document.getElementById('starLabel').textContent = labels[val];
+  }
+
+  function updateWordCount() {
+    const text = document.getElementById('anbefalingTekst').value.trim();
+    const words = text ? text.split(/\s+/).length : 0;
+    const el = document.getElementById('wordCount');
+    el.textContent = words >= 20 ? `${words} ord ✓` : `${words} av 20 ord`;
+    el.style.color = words >= 20 ? 'var(--success)' : 'var(--ink-f)';
+  }
+
+  function goToStep2() {
+    document.getElementById('steg1').style.display = 'none';
+    document.getElementById('steg2').style.display = 'block';
+    document.getElementById('sdot1').className = 'step-item done';
+    document.getElementById('dot1').textContent = '✓';
+    document.getElementById('sdot2').className = 'step-item active';
+    window.scrollTo(0, 0);
+  }
+  function goToStep1() {
+    document.getElementById('steg2').style.display = 'none';
+    document.getElementById('steg1').style.display = 'block';
+    document.getElementById('sdot1').className = 'step-item active';
+    document.getElementById('dot1').textContent = '1';
+    document.getElementById('sdot2').className = 'step-item';
+    window.scrollTo(0, 0);
+  }
+
+  function onBrregInput() { clearTimeout(brregTimeout); brregTimeout = setTimeout(searchBrreg, 380); }
+  function onBrregKey(e) { if (e.key === 'Enter') { e.preventDefault(); searchBrreg(); } }
+
+  async function searchBrreg() {
+    const q = document.getElementById('brregInput').value.trim();
+    if (q.length < 2) return;
+    const btn = document.getElementById('brregBtn');
+    btn.innerHTML = '<span class="spinner"></span>Søker';
+    btn.classList.add('loading');
+    try {
+      const res = await fetch(`https://data.brreg.no/enhetsregisteret/api/enheter?navn=${encodeURIComponent(q)}&size=8`);
+      const data = await res.json();
+      showBrregResults(data._embedded?.enheter || []);
+    } catch { showBrregResults([]); }
+    finally { btn.innerHTML = 'Søk i Brreg'; btn.classList.remove('loading'); }
+  }
+
+  function showBrregResults(enheter) {
+    const el = document.getElementById('brregResults');
+    el.innerHTML = !enheter.length
+      ? '<div class="brreg-item"><span class="brreg-item-name" style="color:var(--ink-f)">Ingen treff — prøv et annet søkeord</span></div>'
+      : enheter.map(e => `<div class="brreg-item" onclick='selectBrreg(${JSON.stringify({navn:e.navn,orgnr:e.organisasjonsnummer,form:e.organisasjonsform?.beskrivelse||"",kommune:e.forretningsadresse?.kommune||""})})'>
+          <div class="brreg-item-name">${e.navn}</div>
+          <div class="brreg-item-meta">Org.nr. ${e.organisasjonsnummer}${e.organisasjonsform?.beskrivelse?' · '+e.organisasjonsform.beskrivelse:''}${e.forretningsadresse?.kommune?' · '+e.forretningsadresse.kommune:''}</div>
+        </div>`).join('');
+    el.classList.add('open');
+  }
+
+  function selectBrreg(data) {
+    selectedBrreg = data;
+    document.getElementById('brregInput').value = data.navn;
+    document.getElementById('brregResults').classList.remove('open');
+    document.getElementById('selectedNavn').textContent = data.navn;
+    document.getElementById('selectedMeta').textContent = `Org.nr. ${data.orgnr}${data.form?' · '+data.form:''}${data.kommune?' · '+data.kommune:''}`;
+    document.getElementById('brregSelected').classList.add('visible');
+  }
+
+  function clearBrreg() {
+    selectedBrreg = null;
+    document.getElementById('brregInput').value = '';
+    document.getElementById('brregSelected').classList.remove('visible');
+    document.getElementById('brregResults').classList.remove('open');
+  }
+
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.brreg-wrapper')) document.getElementById('brregResults').classList.remove('open');
+  });
+
+  function sendVerification() {
+    const email = document.getElementById('emailInput').value;
+    if (!email || !email.includes('@')) {
+      document.getElementById('emailNote').textContent = '⚠️ Skriv inn en gyldig e-postadresse';
+      document.getElementById('emailNote').style.color = 'var(--error)';
+      return;
+    }
+    const btn = document.getElementById('sendEmailBtn');
+    btn.textContent = '✓ Sendt!';
+    btn.disabled = true;
+    btn.style.background = 'var(--success)';
+    document.getElementById('emailNote').textContent = `✅ Bekreftelseslenke sendt til ${email}`;
+    document.getElementById('emailNote').style.color = 'var(--success)';
+  }
+
+  function submitForm() {
+    const email = document.getElementById('emailInput').value || 'din@epost.no';
+    document.getElementById('conf
