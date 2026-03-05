@@ -6,7 +6,7 @@ import Link from "next/link";
 const BIRD_SIZE   = 28;
 const FLY_HEIGHT  = 14;  // max Y offset during flight
 const FLY_WAVES   = 3;   // wing-beat cycles per trip
-const FLY_DURATION = 900; // ms per one-way trip
+const FLY_DURATION = 1800; // ms per one-way trip
 
 const NOTES = [
   { char: "♪", size: 11, offsetX: 4,  delay: 100 },
