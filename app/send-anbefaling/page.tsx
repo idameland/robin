@@ -78,7 +78,7 @@ export default function SendAnbefalingPage() {
           Gå til skjemaet →
         </a>
         <p className="text-[11px] text-petroleum-muted mt-4">
-          Tar under 3 minutter · Godkjennes manuelt av Robin
+          Godkjennes manuelt av Robin
         </p>
       </main>
 
