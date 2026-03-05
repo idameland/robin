@@ -12,10 +12,11 @@ export default function Home() {
   const [aktiv, setAktiv] = useState("Alle");
   const [valgt, setValgt] = useState<Anbefaling | null>(null);
 
-  const filtrert =
+  const filtrert = (
     aktiv === "Alle"
       ? anbefalinger
-      : anbefalinger.filter((a) => a.kategori === aktiv);
+      : anbefalinger.filter((a) => a.kategori === aktiv)
+  ).slice().reverse();
 
   return (
     <div className="min-h-screen bg-white">
@@ -29,7 +30,7 @@ export default function Home() {
             className="text-[32px] md:text-[38px] font-normal text-petroleum mb-6"
             style={serif}
           >
-            Anbefalinger fra dine naboer i Nordre Aker, Oslo
+            Anbefalinger
           </h2>
 
           <div className="flex gap-2 flex-wrap mb-8">
