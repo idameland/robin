@@ -36,12 +36,12 @@ function MessengerBoble({ onSøk }: { onSøk: (q: string) => void }) {
       <div style={{ display: "flex", alignItems: "flex-end", gap: "8px" }}>
 
         {/* Avatar */}
-        <div style={{ width: 38, height: 38, borderRadius: "50%", overflow: "hidden", flexShrink: 0, background: "#1A1612" }}>
+        <div style={{ width: 48, height: 48, borderRadius: "50%", overflow: "hidden", flexShrink: 0, background: "#1A1612" }}>
           <Image
             src={avatarSrc}
             alt="Nabo Rannveig"
-            width={38}
-            height={38}
+            width={48}
+            height={48}
             style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "50%" }}
             onError={(e) => {
               // Fallback til initialer hvis bildet ikke finnes
