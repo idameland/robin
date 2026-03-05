@@ -8,7 +8,7 @@ export default function Hero() {
         >
           Finn fagfolk du kan stole på
         </h1>
-        <p className="text-petroleum-muted text-lg mb-8">
+        <p className="text-petroleum-muted text-base md:text-lg mb-8">
           Anbefalinger fra naboer i Nordre Aker, Oslo
         </p>
         <div className="relative w-full max-w-lg">
