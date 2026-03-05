@@ -61,6 +61,13 @@ export default function Home() {
 
         <div className="mt-0 pt-6 md:mt-6 md:pt-10 border-t border-black/8">
 
+          <h3
+            className="text-[24px] md:text-[30px] font-normal text-petroleum mb-6"
+            style={serif}
+          >
+            Anbefalinger fra naboer i Nordre Aker, Oslo
+          </h3>
+
           {/* iMessage-boble */}
           <div className="flex items-end gap-2.5 mb-8 max-w-sm">
             <div className="w-8 h-8 rounded-full bg-petroleum flex items-center justify-center text-white text-[11px] font-bold shrink-0 mb-1">
@@ -107,13 +114,6 @@ export default function Home() {
               )}
             </div>
           </div>
-
-          <h3
-            className="text-[20px] md:text-[24px] font-normal text-petroleum-muted mb-6"
-            style={serif}
-          >
-            Anbefalinger fra naboer i Nordre Aker, Oslo
-          </h3>
 
           <div className="flex gap-2 flex-wrap mb-8">
             {filterKategorier.map((kat) => {
