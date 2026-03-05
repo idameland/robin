@@ -38,7 +38,7 @@ export default function Home() {
         {/* Siste anbefalinger */}
         <div className="mt-0 pt-4 md:mt-6 md:pt-10 border-t border-black/8">
           <h2
-            className="text-[18px] md:text-[22px] font-normal text-petroleum mb-6"
+            className="text-[21px] md:text-[26px] font-normal text-petroleum mb-6"
             style={serif}
           >
             «En liten fugl fortalte meg om…»
