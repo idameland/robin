@@ -3,10 +3,10 @@
 import { useRef, useEffect } from "react";
 import Link from "next/link";
 
-const BIRD_SIZE = 28;
-const HOP_HEIGHT = 16;
-const HOP_DURATION = 300;
-const NUM_HOPS = 3;
+const BIRD_SIZE   = 28;
+const FLY_HEIGHT  = 14;  // max Y offset during flight
+const FLY_WAVES   = 3;   // wing-beat cycles per trip
+const FLY_DURATION = 900; // ms per one-way trip
 
 const NOTES = [
   { char: "♪", size: 11, offsetX: 4,  delay: 100 },
@@ -14,7 +14,7 @@ const NOTES = [
   { char: "♩", size: 10, offsetX: -4, delay: 60  },
 ];
 
-function BirdSVG() {
+function BirdSVG({ wingRef }: { wingRef: React.RefObject<SVGGElement | null> }) {
   return (
     <svg width={BIRD_SIZE} height={BIRD_SIZE} viewBox="0 0 38 38" fill="none">
       <ellipse cx="17" cy="24" rx="12" ry="10" fill="#4A3828"/>
@@ -22,7 +22,13 @@ function BirdSVG() {
       <path d="M9 17 Q6 22 9 27 Q13 32 19 31 Q26 30 29 24 Q32 19 27 15 Q23 11 18 12 Q12 12 9 17Z" fill="#C8400E"/>
       <path d="M13 18 Q11 22 13 26 Q16 29 21 28 Q25 27 26 23 Q21 16 17 15 Q14 14 13 18Z" fill="#D8501A" opacity=".4"/>
       <ellipse cx="20" cy="28" rx="5" ry="4" fill="#E8D8C0"/>
-      <path d="M7 23 Q1 27 3 34 Q10 30 19 32" fill="#3A2818"/>
+      {/* Wing – animated separately */}
+      <g
+        ref={wingRef}
+        style={{ transformBox: "fill-box", transformOrigin: "100% 100%" }}
+      >
+        <path d="M7 23 Q1 27 3 34 Q10 30 19 32" fill="#3A2818"/>
+      </g>
       <circle cx="25" cy="9" r="3" fill="#1A1208"/>
       <circle cx="25.8" cy="8.2" r="1" fill="white"/>
       <path d="M28 10 L35 8 L28 14 Z" fill="#3A3020"/>
@@ -33,12 +39,13 @@ function BirdSVG() {
 }
 
 export default function Navbar() {
-  const navRef        = useRef<HTMLElement>(null);
-  const logoRef       = useRef<HTMLAnchorElement>(null);
-  const logoBirdRef   = useRef<SVGGElement>(null);
-  const btnRef        = useRef<HTMLDivElement>(null);
-  const birdRef       = useRef<HTMLDivElement>(null);
-  const noteRefs      = useRef<(HTMLSpanElement | null)[]>([]);
+  const navRef      = useRef<HTMLElement>(null);
+  const logoRef     = useRef<HTMLAnchorElement>(null);
+  const logoBirdRef = useRef<SVGGElement>(null);
+  const btnRef      = useRef<HTMLDivElement>(null);
+  const birdRef     = useRef<HTMLDivElement>(null);
+  const wingRef     = useRef<SVGGElement>(null);
+  const noteRefs    = useRef<(HTMLSpanElement | null)[]>([]);
 
   useEffect(() => {
     const nav  = navRef.current;
@@ -47,13 +54,12 @@ export default function Navbar() {
     const bird = birdRef.current;
     if (!nav || !logo || !btn || !bird) return;
 
-    // Helper: commit WAAPI result to inline style then cancel
     async function anim(
-      el: HTMLElement,
+      el: HTMLElement | SVGElement,
       keyframes: Keyframe[],
       options: KeyframeAnimationOptions
     ) {
-      const a = el.animate(keyframes, { ...options, fill: "forwards" });
+      const a = (el as HTMLElement).animate(keyframes, { ...options, fill: "forwards" });
       await a.finished;
       a.commitStyles();
       a.cancel();
@@ -61,6 +67,25 @@ export default function Navbar() {
 
     function delay(ms: number) {
       return new Promise<void>((r) => setTimeout(r, ms));
+    }
+
+    // Build sine-wave flight keyframes
+    function flyKeyframes(fromX: number, toX: number, flipX: boolean): Keyframe[] {
+      const steps = FLY_WAVES * 2 + 1;
+      return Array.from({ length: steps }, (_, i) => {
+        const t = i / (steps - 1);
+        const x = fromX + (toX - fromX) * t;
+        const y = -Math.abs(Math.sin(t * Math.PI * FLY_WAVES)) * FLY_HEIGHT;
+        const tilt = flipX ? "rotate(12deg) scaleX(-1)" : "rotate(-12deg)";
+        return { transform: `translateX(${x}px) translateY(${y}px) ${tilt}`, offset: t };
+      });
+    }
+
+    function startWingFlap(): Animation | undefined {
+      return wingRef.current?.animate(
+        [{ transform: "rotate(-28deg)" }, { transform: "rotate(18deg)" }],
+        { duration: 210, iterations: Infinity, direction: "alternate", easing: "ease-in-out" }
+      );
     }
 
     function fireNotes() {
@@ -81,11 +106,11 @@ export default function Navbar() {
     async function bump(atX: number) {
       bird.animate(
         [
-          { transform: `translateX(${atX}px) rotate(0deg)`   },
+          { transform: `translateX(${atX}px) rotate(0deg)`            },
           { transform: `translateX(${atX - 8}px) rotate(8deg)`,  offset: 0.30 },
           { transform: `translateX(${atX + 10}px) rotate(-6deg)`, offset: 0.52 },
           { transform: `translateX(${atX + 3}px) rotate(3deg)`,  offset: 0.68 },
-          { transform: `translateX(${atX}px) rotate(0deg)`   },
+          { transform: `translateX(${atX}px) rotate(0deg)`            },
         ],
         { duration: 800, easing: "ease-in-out", fill: "forwards" }
       );
@@ -110,54 +135,40 @@ export default function Navbar() {
       const logoRect = logo.getBoundingClientRect();
       const btnRect  = btn.getBoundingClientRect();
 
-      const startX   = logoRect.left - navRect.left + logoRect.width / 2 - BIRD_SIZE / 2;
-      const endX     = btnRect.left  - navRect.left - BIRD_SIZE - 4;
-      const totalDist = endX - startX;
-      const hopDist   = totalDist / NUM_HOPS;
+      const startX = logoRect.left - navRect.left + logoRect.width / 2 - BIRD_SIZE / 2;
+      const endX   = btnRect.left  - navRect.left - BIRD_SIZE - 4;
 
-      // Fugl letter fra greina – fade ut logo-fuglen
+      // Appear at logo, fade out logo bird
       bird.style.transform = `translateX(${startX}px)`;
       bird.style.opacity   = "1";
-      if (logoBirdRef.current) {
-        logoBirdRef.current.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 200, fill: "forwards" });
-      }
-      await delay(500);
+      logoBirdRef.current?.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 200, fill: "forwards" });
+      await delay(400);
 
-      // Hop right to button
-      for (let h = 0; h < NUM_HOPS; h++) {
-        const x0 = startX + h * hopDist;
-        const x1 = x0 + hopDist;
-        await anim(bird, [
-          { transform: `translateX(${x0}px) translateY(0px) rotate(-5deg)`                         },
-          { transform: `translateX(${x0 + hopDist * 0.5}px) translateY(-${HOP_HEIGHT}px) rotate(-12deg)`, offset: 0.45 },
-          { transform: `translateX(${x1}px) translateY(0px) rotate(-5deg)`                         },
-        ], { duration: HOP_DURATION, easing: "ease-in-out" });
-        await delay(35);
-      }
+      // Fly to button
+      const wingAnim = startWingFlap();
+      await anim(bird, flyKeyframes(startX, endX, false), { duration: FLY_DURATION, easing: "linear" });
+      wingAnim?.cancel();
 
       // Bump twice
       await bump(endX);
-      await delay(500);
-      await bump(endX);
       await delay(400);
+      await bump(endX);
+      await delay(350);
 
-      // Hop back left to logo
-      for (let h = 0; h < NUM_HOPS; h++) {
-        const x0 = endX - h * hopDist;
-        const x1 = x0 - hopDist;
-        await anim(bird, [
-          { transform: `translateX(${x0}px) translateY(0px) rotate(5deg)`                          },
-          { transform: `translateX(${x0 - hopDist * 0.5}px) translateY(-${HOP_HEIGHT}px) rotate(12deg)`, offset: 0.45 },
-          { transform: `translateX(${x1}px) translateY(0px) rotate(5deg)`                          },
-        ], { duration: HOP_DURATION, easing: "ease-in-out" });
-        await delay(35);
-      }
+      // Flip around to face left
+      await anim(bird, [
+        { transform: `translateX(${endX}px) scaleX(1)`  },
+        { transform: `translateX(${endX}px) scaleX(-1)` },
+      ], { duration: 150, easing: "ease-in-out" });
 
-      // Fuglen lander – fade inn logo-fuglen igjen, fade ut animert fugl
-      if (logoBirdRef.current) {
-        logoBirdRef.current.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300, fill: "forwards" });
-      }
-      await anim(bird, [{ opacity: 1 }, { opacity: 0 }], { duration: 300 });
+      // Fly back to logo
+      const wingAnim2 = startWingFlap();
+      await anim(bird, flyKeyframes(endX, startX, true), { duration: FLY_DURATION, easing: "linear" });
+      wingAnim2?.cancel();
+
+      // Land – fade logo bird back in, fade out animated bird
+      logoBirdRef.current?.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300, fill: "forwards" });
+      await anim(bird, [{ opacity: 1 }, { opacity: 0 }], { duration: 250 });
     }
 
     runAnimation();
@@ -200,7 +211,7 @@ export default function Navbar() {
           </span>
         </a>
 
-        {/* Animert fugl (flytt fritt over navbaren) */}
+        {/* Animert fugl */}
         <div
           ref={birdRef}
           style={{
@@ -212,7 +223,7 @@ export default function Navbar() {
             zIndex: 10,
           }}
         >
-          <BirdSVG />
+          <BirdSVG wingRef={wingRef} />
           {NOTES.map((note, i) => (
             <span
               key={i}
