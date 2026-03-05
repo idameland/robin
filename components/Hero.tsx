@@ -33,7 +33,7 @@ function MessengerBoble({ onSøk }: { onSøk: (q: string) => void }) {
   return (
     <div style={{ marginLeft: "24px", marginBottom: "32px" }}>
       {/* Avatar + boble */}
-      <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+      <div style={{ display: "flex", alignItems: "flex-end", gap: "8px" }}>
 
         {/* Avatar */}
         <div style={{ width: 38, height: 38, borderRadius: "50%", overflow: "hidden", flexShrink: 0, background: "#1A1612" }}>
