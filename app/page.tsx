@@ -29,7 +29,7 @@ export default function Home() {
             className="text-[32px] md:text-[38px] font-normal text-petroleum mb-6"
             style={serif}
           >
-            Siste anbefalinger
+            Anbefalinger fra dine naboer i Nordre Aker, Oslo
           </h2>
 
           <div className="flex gap-2 flex-wrap mb-8">
