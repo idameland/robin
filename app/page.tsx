@@ -32,6 +32,9 @@ export default function Home() {
           >
             «En liten fugl fortalte meg om…»
           </h2>
+          <p className="text-petroleum-muted text-base mb-6 -mt-2">
+            Anbefalinger fra naboer i Nordre Aker, Oslo
+          </p>
 
           <div className="flex gap-2 flex-wrap mb-8">
             {filterKategorier.map((kat) => {
