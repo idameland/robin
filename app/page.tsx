@@ -30,7 +30,7 @@ export default function Home() {
             className="text-[32px] md:text-[38px] font-normal text-petroleum mb-6"
             style={serif}
           >
-            Anbefalinger
+            «En liten fugl fortalte meg om…»
           </h2>
 
           <div className="flex gap-2 flex-wrap mb-8">
