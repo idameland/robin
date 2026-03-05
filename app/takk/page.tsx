@@ -27,8 +27,8 @@ export default function TakkPage() {
 
           {/* Undertekst */}
           <p
-            className="text-[18px] md:text-[22px] text-petroleum-muted mb-6"
-            style={{ ...serif, fontStyle: "italic" }}
+            className="text-[18px] md:text-[22px] text-petroleum mb-6"
+            style={serif}
           >
             Du er grei.
           </p>
