@@ -36,10 +36,10 @@ export default function Home() {
       <main className="max-w-5xl mx-auto px-6 pt-0 pb-16 md:pt-6">
         <div className="mt-0 pt-6 md:mt-6 md:pt-10">
           <h2
-            className="text-4xl md:text-5xl text-petroleum leading-tight mb-6"
+            className="text-[28px] md:text-[36px] text-petroleum leading-tight mb-6"
             style={{ fontFamily: "var(--font-playfair)", fontWeight: 400 }}
           >
-            Naboer har kvitret om<br />disse flinke fagfolkene
+            Naboer har kvitret om disse flinke fagfolkene
           </h2>
 
           <div className="flex gap-2 flex-wrap mb-8">
