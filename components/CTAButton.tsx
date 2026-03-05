@@ -49,11 +49,12 @@ export default function CTAButton() {
         const delay = bumpIndex === 0 ? NOTES[i].delay1 : NOTES[i].delay2;
         el.animate(
           [
-            { opacity: 0, transform: "translateY(0px)"   },
-            { opacity: 1, transform: "translateY(-15px)", offset: 0.3 },
-            { opacity: 0, transform: "translateY(-38px)" },
+            { opacity: 0, transform: "translate(0px, 0px)"       },
+            { opacity: 1, transform: "translate(10px, -8px)", offset: 0.25 },
+            { opacity: 1, transform: "translate(22px, 4px)",  offset: 0.6  },
+            { opacity: 0, transform: "translate(30px, 22px)"      },
           ],
-          { duration: 900, delay, easing: "ease-out" }
+          { duration: 900, delay, easing: "ease-in-out" }
         );
       });
     }
@@ -67,7 +68,7 @@ export default function CTAButton() {
     <div style={{ display: "flex", alignItems: "flex-end", gap: 0 }}>
 
       {/* Fugl */}
-      <div style={{ position: "relative", width: 38, height: 38, flexShrink: 0 }}>
+      <div style={{ position: "relative", width: 28, height: 28, flexShrink: 0 }}>
         {/* Notar */}
         {NOTES.map((note, i) => (
           <span
@@ -93,7 +94,7 @@ export default function CTAButton() {
           ref={birdRef}
           style={{ position: "absolute", bottom: 0, left: "50%", transform: "translateX(-50%)" }}
         >
-          <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
+          <svg width="28" height="28" viewBox="0 0 38 38" fill="none">
             <ellipse cx="17" cy="24" rx="12" ry="10" fill="#4A3828"/>
             <circle cx="19" cy="12" r="10" fill="#4A3828"/>
             <path d="M9 17 Q6 22 9 27 Q13 32 19 31 Q26 30 29 24 Q32 19 27 15 Q23 11 18 12 Q12 12 9 17Z" fill="#C8400E"/>
