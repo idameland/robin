@@ -63,9 +63,12 @@ export default function Home() {
               <span className="animate-pulse">|</span>
             )}
           </h2>
-          <p className="text-petroleum-muted text-base mb-6 -mt-2">
+          <h3
+            className="text-[20px] md:text-[24px] font-normal text-petroleum-muted mb-6 -mt-2"
+            style={serif}
+          >
             Anbefalinger fra naboer i Nordre Aker, Oslo
-          </p>
+          </h3>
 
           <div className="flex gap-2 flex-wrap mb-8">
             {filterKategorier.map((kat) => {
