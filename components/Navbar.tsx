@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
 
 const BIRD_SIZE = 28;
@@ -34,11 +33,12 @@ function BirdSVG() {
 }
 
 export default function Navbar() {
-  const navRef   = useRef<HTMLElement>(null);
-  const logoRef  = useRef<HTMLAnchorElement>(null);
-  const btnRef   = useRef<HTMLDivElement>(null);
-  const birdRef  = useRef<HTMLDivElement>(null);
-  const noteRefs = useRef<(HTMLSpanElement | null)[]>([]);
+  const navRef        = useRef<HTMLElement>(null);
+  const logoRef       = useRef<HTMLAnchorElement>(null);
+  const logoBirdRef   = useRef<SVGGElement>(null);
+  const btnRef        = useRef<HTMLDivElement>(null);
+  const birdRef       = useRef<HTMLDivElement>(null);
+  const noteRefs      = useRef<(HTMLSpanElement | null)[]>([]);
 
   useEffect(() => {
     const nav  = navRef.current;
@@ -115,9 +115,12 @@ export default function Navbar() {
       const totalDist = endX - startX;
       const hopDist   = totalDist / NUM_HOPS;
 
-      // Place bird at logo
+      // Fugl letter fra greina – fade ut logo-fuglen
       bird.style.transform = `translateX(${startX}px)`;
       bird.style.opacity   = "1";
+      if (logoBirdRef.current) {
+        logoBirdRef.current.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 200, fill: "forwards" });
+      }
       await delay(500);
 
       // Hop right to button
@@ -150,7 +153,10 @@ export default function Navbar() {
         await delay(35);
       }
 
-      // Fade back into logo
+      // Fuglen lander – fade inn logo-fuglen igjen, fade ut animert fugl
+      if (logoBirdRef.current) {
+        logoBirdRef.current.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300, fill: "forwards" });
+      }
       await anim(bird, [{ opacity: 1 }, { opacity: 0 }], { duration: 300 });
     }
 
@@ -162,7 +168,31 @@ export default function Navbar() {
       <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
 
         <a ref={logoRef} href="/" className="flex items-center gap-2">
-          <Image src="/robin-ikon.svg" alt="" width={32} height={32} aria-hidden="true" />
+          <svg width="32" height="40" viewBox="0 0 80 101" fill="none" aria-hidden="true">
+            {/* Grein – alltid synlig */}
+            <path d="M4 98 Q40 93 76 98" stroke="#9A8060" strokeWidth="5" strokeLinecap="round" fill="none"/>
+            <path d="M4 97 Q40 92 76 97" stroke="#B89870" strokeWidth="2" strokeLinecap="round" fill="none" opacity="0.5"/>
+            <path d="M16 96 Q28 94 38 96" stroke="#C8A880" strokeWidth="0.8" strokeLinecap="round" fill="none" opacity="0.6"/>
+            <path d="M46 95 Q58 93 68 96" stroke="#C8A880" strokeWidth="0.8" strokeLinecap="round" fill="none" opacity="0.6"/>
+            {/* Bein + føtter – alltid synlig */}
+            <line x1="40" y1="82" x2="34" y2="95" stroke="#3A2818" strokeWidth="1.8" strokeLinecap="round"/>
+            <line x1="46" y1="82" x2="52" y2="95" stroke="#3A2818" strokeWidth="1.8" strokeLinecap="round"/>
+            <path d="M31 95 L28 101 M34 95 L34 101 M37 95 L40 101" stroke="#3A2818" strokeWidth="1.5" strokeLinecap="round"/>
+            <path d="M49 95 L46 101 M52 95 L52 101 M55 95 L58 101" stroke="#3A2818" strokeWidth="1.5" strokeLinecap="round"/>
+            {/* Fuglen – fades ut når den letter */}
+            <g ref={logoBirdRef}>
+              <ellipse cx="40" cy="62" rx="22" ry="19" fill="#4A3828"/>
+              <circle cx="42" cy="36" r="16" fill="#4A3828"/>
+              <path d="M22 44 Q18 54 22 65 Q28 74 42 73 Q54 71 58 62 Q62 52 56 44 Q50 36 42 38 Q30 38 22 44Z" fill="#C8400E"/>
+              <path d="M28 46 Q24 54 28 62 Q34 70 44 69 Q50 67 52 62 Q46 48 38 44 Q32 42 28 46Z" fill="#D8501A" opacity="0.5"/>
+              <path d="M20 58 Q12 64 14 76 Q24 70 40 72" fill="#3A2818"/>
+              <path d="M18 74 Q10 80 12 90 Q20 84 32 82 Q26 78 22 74Z" fill="#3A2818"/>
+              <ellipse cx="44" cy="68" rx="8" ry="7" fill="#E8D8C0"/>
+              <circle cx="50" cy="32" r="5" fill="#1A1208"/>
+              <circle cx="51.4" cy="30.6" r="1.4" fill="white"/>
+              <path d="M56 33 L68 30 L56 38 Z" fill="#3A3020"/>
+            </g>
+          </svg>
           <span
             className="text-petroleum leading-none translate-y-1"
             style={{ fontFamily: "var(--font-playfair)", fontWeight: 400, fontSize: "32px" }}
