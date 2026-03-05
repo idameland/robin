@@ -83,12 +83,9 @@ export default function SendAnbefalingPage() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-black/8 px-6 py-5 flex items-center justify-between max-w-none">
+      <footer className="border-t border-black/8 px-6 py-5">
         <span className="text-petroleum-muted text-[15px]" style={serif}>
           Robin
-        </span>
-        <span className="text-[11px] text-petroleum-muted italic">
-          Den lille fuglen som alltid vet hvem du bør ringe.
         </span>
       </footer>
     </div>
