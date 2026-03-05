@@ -59,14 +59,7 @@ export default function Home() {
       <Hero onSøk={setSøk} />
       <main className="max-w-5xl mx-auto px-6 pt-0 pb-16 md:pt-6">
 
-        <div className="mt-0 pt-6 md:mt-6 md:pt-10 border-t border-black/8">
-
-          <h3
-            className="text-[24px] md:text-[30px] font-normal text-petroleum mb-6"
-            style={serif}
-          >
-            Anbefalinger fra naboer i Nordre Aker, Oslo
-          </h3>
+        <div className="mt-0 pt-6 md:mt-6 md:pt-10">
 
           {/* iMessage-boble */}
           <div className="flex items-end gap-2.5 mb-8 max-w-sm">
