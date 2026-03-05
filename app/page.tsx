@@ -22,10 +22,10 @@ export default function Home() {
     <div className="min-h-screen bg-white">
       <Navbar />
       <Hero />
-      <main className="max-w-5xl mx-auto px-6 pt-2 pb-16 md:pt-6">
+      <main className="max-w-5xl mx-auto px-6 pt-0 pb-16 md:pt-6">
 
         {/* Siste anbefalinger */}
-        <div className="mt-2 pt-6 md:mt-6 md:pt-10 border-t border-black/8">
+        <div className="mt-0 pt-4 md:mt-6 md:pt-10 border-t border-black/8">
           <h2
             className="text-[32px] md:text-[38px] font-normal text-petroleum mb-6"
             style={serif}
