@@ -33,8 +33,8 @@ export default function Home() {
     <div className="min-h-screen bg-white">
       <Navbar />
       <Hero onSøk={setSøk} />
-      <main className="max-w-5xl mx-auto px-6 pt-0 pb-16 md:pt-6">
-        <div className="mt-0 pt-6 md:mt-6 md:pt-10">
+      <main className="max-w-5xl mx-auto px-6 pt-0 pb-16 md:pt-2">
+        <div className="mt-0 pt-4 md:mt-4 md:pt-6">
           <h2
             className="text-[28px] md:text-[36px] text-petroleum leading-tight mb-6"
             style={{ fontFamily: "var(--font-playfair)", fontWeight: 400 }}

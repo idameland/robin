@@ -122,10 +122,10 @@ function MessengerBoble({ onSøk }: { onSøk: (q: string) => void }) {
 
 export default function Hero({ onSøk }: { onSøk: (q: string) => void }) {
   return (
-    <section className="px-6 pt-14 pb-2 md:pb-10">
+    <section className="px-6 pt-10 pb-0 md:pb-4">
       <div className="max-w-5xl mx-auto">
         <h1
-          className="text-4xl md:text-5xl text-petroleum leading-tight mb-6"
+          className="text-4xl md:text-5xl text-petroleum leading-tight mb-4"
           style={{ fontFamily: "var(--font-playfair)", fontWeight: 400 }}
         >
           Finn fagfolk du kan stole på
