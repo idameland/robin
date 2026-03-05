@@ -174,14 +174,13 @@ export default function Navbar() {
             <path d="M4 97 Q40 92 76 97" stroke="#B89870" strokeWidth="2" strokeLinecap="round" fill="none" opacity="0.5"/>
             <path d="M16 96 Q28 94 38 96" stroke="#C8A880" strokeWidth="0.8" strokeLinecap="round" fill="none" opacity="0.6"/>
             <path d="M46 95 Q58 93 68 96" stroke="#C8A880" strokeWidth="0.8" strokeLinecap="round" fill="none" opacity="0.6"/>
-            {/* Bein + føtter – alltid synlig */}
-            <line x1="40" y1="82" x2="34" y2="95" stroke="#3A2818" strokeWidth="1.8" strokeLinecap="round"/>
-            <line x1="46" y1="82" x2="52" y2="95" stroke="#3A2818" strokeWidth="1.8" strokeLinecap="round"/>
-            <path d="M31 95 L28 101 M34 95 L34 101 M37 95 L40 101" stroke="#3A2818" strokeWidth="1.5" strokeLinecap="round"/>
-            <path d="M49 95 L46 101 M52 95 L52 101 M55 95 L58 101" stroke="#3A2818" strokeWidth="1.5" strokeLinecap="round"/>
             {/* Fuglen – fades ut når den letter */}
             <g ref={logoBirdRef}>
               <ellipse cx="40" cy="62" rx="22" ry="19" fill="#4A3828"/>
+              <line x1="40" y1="82" x2="34" y2="95" stroke="#3A2818" strokeWidth="1.8" strokeLinecap="round"/>
+              <line x1="46" y1="82" x2="52" y2="95" stroke="#3A2818" strokeWidth="1.8" strokeLinecap="round"/>
+              <path d="M31 95 L28 101 M34 95 L34 101 M37 95 L40 101" stroke="#3A2818" strokeWidth="1.5" strokeLinecap="round"/>
+              <path d="M49 95 L46 101 M52 95 L52 101 M55 95 L58 101" stroke="#3A2818" strokeWidth="1.5" strokeLinecap="round"/>
               <circle cx="42" cy="36" r="16" fill="#4A3828"/>
               <path d="M22 44 Q18 54 22 65 Q28 74 42 73 Q54 71 58 62 Q62 52 56 44 Q50 36 42 38 Q30 38 22 44Z" fill="#C8400E"/>
               <path d="M28 46 Q24 54 28 62 Q34 70 44 69 Q50 67 52 62 Q46 48 38 44 Q32 42 28 46Z" fill="#D8501A" opacity="0.5"/>
