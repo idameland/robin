@@ -34,19 +34,22 @@ export default function Home() {
           </h2>
 
           <div className="flex gap-2 flex-wrap mb-8">
-            {filterKategorier.map((kat) => (
-              <button
-                key={kat}
-                onClick={() => setAktiv(kat)}
-                className={`px-4 py-1.5 text-sm font-medium border transition-colors ${
-                  aktiv === kat
-                    ? "bg-petroleum text-white border-petroleum"
-                    : "bg-white text-petroleum border-black/20 hover:border-black"
-                }`}
-              >
-                {kat}
-              </button>
-            ))}
+            {filterKategorier.map((kat) => {
+              const antall = kat === "Alle" ? anbefalinger.length : anbefalinger.filter((a) => a.kategori === kat).length;
+              return (
+                <button
+                  key={kat}
+                  onClick={() => setAktiv(kat)}
+                  className={`px-4 py-1.5 text-sm font-medium border transition-colors ${
+                    aktiv === kat
+                      ? "bg-petroleum text-white border-petroleum"
+                      : "bg-white text-petroleum border-black/20 hover:border-black"
+                  }`}
+                >
+                  {kat} ({antall})
+                </button>
+              );
+            })}
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
