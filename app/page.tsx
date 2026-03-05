@@ -39,7 +39,7 @@ export default function Home() {
             className="text-[28px] md:text-[36px] text-petroleum leading-tight mb-5"
             style={{ fontFamily: "var(--font-playfair)", fontWeight: 400 }}
           >
-            Anbefalinger fra noen kvitrete naboer
+            Anbefalinger fra naboer som har kvitret
           </h2>
 
           {/* Søkefelt */}
