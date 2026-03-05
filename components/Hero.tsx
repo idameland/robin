@@ -7,7 +7,7 @@ const MELDING = "En liten fugl fortalte meg om…";
 const TYPING_DELAY = 1400;
 const CHAR_SPEED = 52;
 
-function MessengerBoble({ onSøk }: { onSøk: (q: string) => void }) {
+function MessengerBoble() {
   const [fase, setFase] = useState<"typing" | "skriver" | "ferdig">("typing");
   const [tekst, setTekst] = useState("");
 
@@ -120,7 +120,7 @@ function MessengerBoble({ onSøk }: { onSøk: (q: string) => void }) {
   );
 }
 
-export default function Hero({ onSøk }: { onSøk: (q: string) => void }) {
+export default function Hero() {
   return (
     <section className="px-6 pt-10 pb-0 md:pb-4">
       <div className="max-w-5xl mx-auto">
@@ -131,30 +131,7 @@ export default function Hero({ onSøk }: { onSøk: (q: string) => void }) {
           Finn fagfolk du kan stole på
         </h1>
 
-        <MessengerBoble onSøk={onSøk} />
-
-        {/* Søkefelt */}
-        <div className="relative w-full max-w-lg">
-          <svg
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-mint-dark"
-            width="18" height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <circle cx="11" cy="11" r="8" />
-            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-          </svg>
-          <input
-            type="text"
-            placeholder="Søk etter fag eller navn..."
-            onChange={(e) => onSøk(e.target.value)}
-            className="w-full pl-11 pr-4 py-3 border border-black/20 bg-white text-petroleum placeholder-petroleum/40 focus:outline-none focus:border-black transition-colors"
-          />
-        </div>
+        <MessengerBoble />
       </div>
     </section>
   );
