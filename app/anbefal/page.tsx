@@ -285,7 +285,7 @@ export default function AnbefalPage() {
         {/* Page header */}
         <div className="mb-14">
           <h1
-            className="text-[44px] md:text-[52px] leading-[1.05] tracking-[-1px] font-bold mb-4 text-petroleum"
+            className="text-[44px] md:text-[52px] leading-[1.05] tracking-[-1px] font-normal mb-4 text-petroleum"
             style={serif}
           >
             Anbefal flinke folk
