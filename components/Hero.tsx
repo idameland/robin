@@ -31,7 +31,7 @@ function MessengerBoble() {
   const avatarSrc = "/images/nabo-rannveig.jpg";
 
   return (
-    <div style={{ marginLeft: "24px", marginBottom: "32px" }}>
+    <div style={{ marginLeft: "4px", marginBottom: "32px" }}>
       {/* Avatar + boble */}
       <div style={{ display: "flex", alignItems: "flex-end", gap: "8px" }}>
 
@@ -65,9 +65,9 @@ function MessengerBoble() {
         <div style={{
           background: "#EBEBEB",
           borderRadius: "20px",
-          padding: "12px 18px",
+          padding: "10px 16px",
           fontFamily: "-apple-system, 'SF Pro Text', sans-serif",
-          fontSize: "17px",
+          fontSize: "15px",
           color: "#000",
           lineHeight: "1.4",
           maxWidth: "300px",

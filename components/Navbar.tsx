@@ -175,7 +175,7 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav ref={navRef} className="sticky top-0 z-50 bg-white border-b border-black/8" style={{ position: "relative" }}>
+    <nav ref={navRef} className="sticky top-0 z-50 bg-white border-b border-black/8" style={{ position: "sticky" }}>
       <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
 
         <a ref={logoRef} href="/" className="flex items-center gap-2">
