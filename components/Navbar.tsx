@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import CTAButton from "@/components/CTAButton";
 
 export default function Navbar() {
   return (
@@ -20,9 +21,7 @@ export default function Navbar() {
             Robin
           </span>
         </a>
-        <Link href="/send-anbefaling" className="bg-card-yellow text-petroleum text-sm font-medium px-5 py-2 rounded hover:brightness-95 transition-all tracking-wide">
-          Send inn anbefaling
-        </Link>
+        <CTAButton />
       </div>
     </nav>
   );
