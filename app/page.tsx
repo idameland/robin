@@ -11,17 +11,28 @@ const serif = { fontFamily: "var(--font-playfair)" };
 export default function Home() {
   const [aktiv, setAktiv] = useState("Alle");
   const [valgt, setValgt] = useState<Anbefaling | null>(null);
+  const [søk, setSøk] = useState("");
 
-  const filtrert = (
-    aktiv === "Alle"
-      ? anbefalinger
-      : anbefalinger.filter((a) => a.kategori === aktiv)
-  ).slice().reverse();
+  const filtrert = anbefalinger
+    .filter((a) => aktiv === "Alle" || a.kategori === aktiv)
+    .filter((a) => {
+      const q = søk.toLowerCase().trim();
+      if (!q) return true;
+      return (
+        a.firma.toLowerCase().includes(q) ||
+        a.jobb.toLowerCase().includes(q) ||
+        a.kategori.toLowerCase().includes(q) ||
+        a.anbefaler.toLowerCase().includes(q) ||
+        a.sitat.toLowerCase().includes(q)
+      );
+    })
+    .slice()
+    .reverse();
 
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
-      <Hero />
+      <Hero onSøk={setSøk} />
       <main className="max-w-5xl mx-auto px-6 pt-0 pb-16 md:pt-6">
 
         {/* Siste anbefalinger */}
@@ -60,6 +71,11 @@ export default function Home() {
               <AnbefalingKort key={i} a={a} onClick={() => setValgt(a)} />
             ))}
           </div>
+          {filtrert.length === 0 && (
+            <p className="text-petroleum-muted text-sm py-16 text-center">
+              Ingen anbefalinger matcher søket ditt.
+            </p>
+          )}
         </div>
       </main>
 

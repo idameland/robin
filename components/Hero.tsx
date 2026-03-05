@@ -1,4 +1,4 @@
-export default function Hero() {
+export default function Hero({ onSøk }: { onSøk: (q: string) => void }) {
   return (
     <section className="px-6 pt-14 pb-2 md:pb-10">
       <div className="max-w-5xl mx-auto">
@@ -8,7 +8,7 @@ export default function Hero() {
         >
           Finn fagfolk du kan stole på
         </h1>
-<div className="relative w-full max-w-lg">
+        <div className="relative w-full max-w-lg">
           <svg
             className="absolute left-4 top-1/2 -translate-y-1/2 text-mint-dark"
             width="18"
@@ -26,6 +26,7 @@ export default function Hero() {
           <input
             type="text"
             placeholder="Søk etter fag eller navn..."
+            onChange={(e) => onSøk(e.target.value)}
             className="w-full pl-11 pr-4 py-3 border border-black/20 bg-white text-petroleum placeholder-petroleum/40 focus:outline-none focus:border-black transition-colors"
           />
         </div>
