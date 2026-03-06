@@ -57,6 +57,7 @@ function MessengerBoble() {
           fontSize: "13px",
           color: "#8E8E93",
           marginBottom: "4px",
+          paddingLeft: "6px",
         }}>
           Nabo Rannveig
         </p>
