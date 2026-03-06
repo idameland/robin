@@ -256,7 +256,7 @@ export default function Navbar() {
         <div ref={btnRef}>
           <Link
             href="/send-anbefaling"
-            className="bg-card-yellow text-petroleum text-sm font-medium px-5 py-2 rounded hover:brightness-95 transition-all tracking-wide"
+            className="bg-card-yellow text-petroleum text-xs sm:text-sm font-medium px-5 py-2 rounded hover:brightness-95 transition-all tracking-wide"
           >
             Send inn din anbefaling
           </Link>
