@@ -19,6 +19,15 @@ body {
   color: #1A1612;
 }
 
+.swipe-hint-label {
+  display: flex;
+}
+@media (pointer: fine) {
+  .swipe-hint-label {
+    display: none;
+  }
+}
+
 @keyframes dotPulse {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(2.2); }

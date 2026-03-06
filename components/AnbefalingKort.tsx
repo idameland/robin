@@ -100,12 +100,12 @@ export function AnbefalingKortStablet({ anbefalinger, onClick }: { anbefalinger:
           background: "linear-gradient(to right, transparent, rgba(210,198,228,0.5))",
           pointerEvents: "none", zIndex: 4,
         }} />
-        {/* Swipe-hint */}
-        <div style={{
+        {/* Swipe-hint (kun mobil/iPad) */}
+        <div className="swipe-hint-label" style={{
           position: "absolute", bottom: "14px", left: "50%", transform: "translateX(-50%)",
           zIndex: 5, pointerEvents: "none",
           opacity: showHint ? 1 : 0, transition: "opacity 0.6s",
-          display: "flex", alignItems: "center", gap: "5px",
+          alignItems: "center", gap: "5px",
           background: "rgba(26,22,18,0.65)", color: "white",
           borderRadius: "100px", padding: "3px 10px", fontSize: "10px", whiteSpace: "nowrap",
         }}>
