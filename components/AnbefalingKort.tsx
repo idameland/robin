@@ -25,7 +25,7 @@ export function AnbefalingKort({ a, onClick }: { a: Anbefaling; onClick: () => v
   return (
     <div
       onClick={onClick}
-      className="bg-card-purple p-6 flex flex-col gap-4 cursor-pointer hover:brightness-95 transition-all"
+      className="bg-card-purple p-6 flex flex-col gap-4 cursor-pointer hover:brightness-95 transition-all h-full"
     >
       <div className="flex items-start justify-between gap-3">
         <h2 className="text-[22px] leading-tight text-petroleum" style={serif}>
@@ -56,7 +56,7 @@ export function AnbefalingKortStablet({ anbefalinger, onClick }: { anbefalinger:
   const total = anbefalinger.length;
 
   return (
-    <div className="stack-wrap relative" style={{ zIndex: 2 }}>
+    <div className="stack-wrap relative h-full" style={{ zIndex: 2 }}>
       {/* Badge */}
       <div style={{
         position: "absolute", top: -10, right: 6, zIndex: 10,
@@ -69,7 +69,7 @@ export function AnbefalingKortStablet({ anbefalinger, onClick }: { anbefalinger:
       {/* Kort */}
       <div
         onClick={() => onClick(a)}
-        className="bg-card-purple p-6 flex flex-col gap-4 cursor-pointer hover:brightness-95 transition-all"
+        className="bg-card-purple p-6 flex flex-col gap-4 cursor-pointer hover:brightness-95 transition-all h-full"
         style={{ position: "relative", zIndex: 2 }}
       >
         <div className="flex items-start justify-between gap-3">
