@@ -13,7 +13,7 @@ const newsreader = Newsreader({
 });
 
 export const metadata: Metadata = {
-  title: "Robin – Håndverkere i Nordre Aker",
+  title: "Robin | Finn fagfolk",
   description: "Finn anbefalte håndverkere i ditt nabolag",
 };
 
