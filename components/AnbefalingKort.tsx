@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Anbefaling } from "@/lib/anbefalinger";
 
 const serif = { fontFamily: "var(--font-playfair)" };
@@ -52,9 +52,15 @@ export function AnbefalingKort({ a, onClick }: { a: Anbefaling; onClick: () => v
 
 export function AnbefalingKortStablet({ anbefalinger, onClick }: { anbefalinger: Anbefaling[]; onClick: (gruppe: Anbefaling[], idx: number) => void }) {
   const [idx, setIdx] = useState(0);
+  const [showHint, setShowHint] = useState(true);
   const a = anbefalinger[idx];
   const total = anbefalinger.length;
   const touchStartX = useRef<number | null>(null);
+
+  useEffect(() => {
+    const t = setTimeout(() => setShowHint(false), 4000);
+    return () => clearTimeout(t);
+  }, []);
 
   function handleTouchStart(e: React.TouchEvent) {
     touchStartX.current = e.touches[0].clientX;
@@ -62,7 +68,10 @@ export function AnbefalingKortStablet({ anbefalinger, onClick }: { anbefalinger:
   function handleTouchEnd(e: React.TouchEvent) {
     if (touchStartX.current === null) return;
     const diff = touchStartX.current - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 40) setIdx((prev) => diff > 0 ? (prev + 1) % total : (prev - 1 + total) % total);
+    if (Math.abs(diff) > 40) {
+      setIdx((prev) => diff > 0 ? (prev + 1) % total : (prev - 1 + total) % total);
+      setShowHint(false);
+    }
     touchStartX.current = null;
   }
 
@@ -74,7 +83,7 @@ export function AnbefalingKortStablet({ anbefalinger, onClick }: { anbefalinger:
         background: "#1A1612", color: "white", borderRadius: "100px",
         fontSize: "9px", fontWeight: 700, padding: "3px 8px", whiteSpace: "nowrap",
       }}>
-        {total} anbefalinger
+        {idx + 1} / {total}
       </div>
 
       {/* Kort */}
@@ -83,8 +92,25 @@ export function AnbefalingKortStablet({ anbefalinger, onClick }: { anbefalinger:
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
         className="bg-card-purple p-6 flex flex-col gap-4 cursor-pointer hover:brightness-95 transition-all h-full"
-        style={{ position: "relative", zIndex: 2 }}
+        style={{ position: "relative", zIndex: 2, overflow: "hidden" }}
       >
+        {/* Gradient høyre kant — antyder mer innhold */}
+        <div style={{
+          position: "absolute", top: 0, right: 0, bottom: 0, width: "40px",
+          background: "linear-gradient(to right, transparent, rgba(210,198,228,0.5))",
+          pointerEvents: "none", zIndex: 4,
+        }} />
+        {/* Swipe-hint */}
+        <div style={{
+          position: "absolute", bottom: "14px", left: "50%", transform: "translateX(-50%)",
+          zIndex: 5, pointerEvents: "none",
+          opacity: showHint ? 1 : 0, transition: "opacity 0.6s",
+          display: "flex", alignItems: "center", gap: "5px",
+          background: "rgba(26,22,18,0.65)", color: "white",
+          borderRadius: "100px", padding: "3px 10px", fontSize: "10px", whiteSpace: "nowrap",
+        }}>
+          ↔ sveip
+        </div>
         <div className="flex items-start justify-between gap-3">
           <h2 className="text-[22px] leading-tight text-petroleum" style={serif}>
             {a.firma}
@@ -105,9 +131,13 @@ export function AnbefalingKortStablet({ anbefalinger, onClick }: { anbefalinger:
           {/* Navigasjon */}
           <div style={{ display: "flex", alignItems: "center", gap: "6px" }} onClick={(e) => e.stopPropagation()}>
             {/* Prikker */}
-            <div style={{ display: "flex", gap: "3px" }}>
+            <div style={{ display: "flex", gap: "3px", alignItems: "center" }}>
               {anbefalinger.map((_, i) => (
-                <div key={i} style={{ width: 5, height: 5, borderRadius: "50%", background: i === idx ? "#1A1612" : "#E2DDD7" }} />
+                <div key={i} style={{
+                  width: 5, height: 5, borderRadius: "50%",
+                  background: i === idx ? "#1A1612" : "#E2DDD7",
+                  animation: i === idx ? "dotPulse 0.6s ease-in-out 0.3s 3" : "none",
+                }} />
               ))}
             </div>
             {/* Piler */}

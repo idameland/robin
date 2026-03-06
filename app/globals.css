@@ -19,6 +19,16 @@ body {
   color: #1A1612;
 }
 
+@keyframes dotPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(2.2); }
+}
+
+@media (max-width: 640px) {
+  .stack-wrap::before { right: -12px; }
+  .stack-wrap::after  { right: -20px; }
+}
+
 .stack-wrap::before {
   content: '';
   position: absolute;
