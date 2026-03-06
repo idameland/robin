@@ -258,7 +258,7 @@ export default function Navbar() {
             href="/send-anbefaling"
             className="bg-card-yellow text-petroleum text-sm font-medium px-5 py-2 rounded hover:brightness-95 transition-all tracking-wide"
           >
-            Send inn anbefaling
+            Send inn din anbefaling
           </Link>
         </div>
       </div>
