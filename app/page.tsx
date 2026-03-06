@@ -7,11 +7,13 @@ import { AnbefalingKort, AnbefalingModal } from "@/components/AnbefalingKort";
 import { anbefalinger, filterKategorier, Anbefaling } from "@/lib/anbefalinger";
 
 const serif = { fontFamily: "var(--font-playfair)" };
+const INITIAL_COUNT = 9;
 
 export default function Home() {
   const [aktiv, setAktiv] = useState("Alle");
   const [valgt, setValgt] = useState<Anbefaling | null>(null);
   const [søk, setSøk] = useState("");
+  const [showAll, setShowAll] = useState(false);
 
   const filtrert = anbefalinger
     .filter((a) => aktiv === "Alle" || a.kategori === aktiv)
@@ -28,6 +30,9 @@ export default function Home() {
     })
     .slice()
     .reverse();
+
+  const visible = showAll ? filtrert : filtrert.slice(0, INITIAL_COUNT);
+  const remaining = filtrert.length - INITIAL_COUNT;
 
   return (
     <div className="min-h-screen bg-white">
@@ -85,13 +90,44 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {filtrert.map((a, i) => (
+            {visible.map((a, i) => (
               <AnbefalingKort key={i} a={a} onClick={() => setValgt(a)} />
             ))}
           </div>
           {filtrert.length === 0 && (
             <p className="text-petroleum-muted text-sm py-16 text-center">
               Ingen anbefalinger matcher søket ditt.
+            </p>
+          )}
+          {remaining > 0 && !showAll && (
+            <div style={{ marginTop: '28px', paddingTop: '24px', borderTop: '1px solid #E2DDD7', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
+              <p style={{ fontSize: '11px', color: '#9A9088', fontFamily: 'Roboto Mono' }}>
+                Viser {INITIAL_COUNT} av {filtrert.length} anbefalinger
+              </p>
+              <button
+                onClick={() => setShowAll(true)}
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '10px',
+                  padding: '12px 28px', borderRadius: '100px',
+                  border: '1.5px solid #E2DDD7', background: '#FFFFFF',
+                  fontFamily: 'Roboto Mono', fontSize: '12px', fontWeight: '700',
+                  color: '#1A1612', cursor: 'pointer'
+                }}
+              >
+                Last inn flere
+                <span style={{
+                  background: '#9FFFCB', color: '#004E64',
+                  padding: '2px 9px', borderRadius: '100px',
+                  fontSize: '10px', fontWeight: '800'
+                }}>
+                  +{remaining}
+                </span>
+              </button>
+            </div>
+          )}
+          {showAll && filtrert.length > INITIAL_COUNT && (
+            <p style={{ textAlign: 'center', fontSize: '11px', color: '#9A9088', fontStyle: 'italic', marginTop: '20px' }}>
+              ✓ Du har sett alle {filtrert.length} anbefalingene
             </p>
           )}
         </div>

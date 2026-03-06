@@ -179,7 +179,8 @@ export default function Navbar() {
       await anim(birdEl, [{ opacity: 1 }, { opacity: 0 }], { duration: 250 });
     }
 
-    runAnimation();
+    const startTimer = setTimeout(() => runAnimation(), 5000);
+    return () => clearTimeout(startTimer);
   }, []);
 
   return (
