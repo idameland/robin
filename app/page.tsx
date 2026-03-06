@@ -51,7 +51,7 @@ export default function Home() {
       <Navbar />
       <Hero />
       <main className="max-w-5xl mx-auto px-6 pt-0 pb-16 md:pt-2">
-        <div className="mt-4 pt-2 md:mt-2 md:pt-4">
+        <div className="mt-8 pt-2 md:mt-2 md:pt-4">
           <h2
             className="text-[28px] md:text-[36px] text-petroleum leading-tight mb-5"
             style={{ fontFamily: "var(--font-playfair)", fontWeight: 400 }}
