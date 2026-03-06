@@ -113,11 +113,11 @@ export function AnbefalingKortStablet({ anbefalinger, onClick }: { anbefalinger:
             {/* Piler */}
             <button
               onClick={() => setIdx((idx - 1 + total) % total)}
-              style={{ width: 32, height: 32, borderRadius: "50%", border: "1.5px solid #E2DDD7", background: "white", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: "15px", lineHeight: 1 }}
+              style={{ width: 32, height: 32, borderRadius: "50%", border: "1.5px solid #E2DDD7", background: "white", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: "20px", lineHeight: "32px", paddingBottom: "1px" }}
             >‹</button>
             <button
               onClick={() => setIdx((idx + 1) % total)}
-              style={{ width: 32, height: 32, borderRadius: "50%", border: "1.5px solid #E2DDD7", background: "white", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: "15px", lineHeight: 1 }}
+              style={{ width: 32, height: 32, borderRadius: "50%", border: "1.5px solid #E2DDD7", background: "white", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: "20px", lineHeight: "32px", paddingBottom: "1px" }}
             >›</button>
           </div>
         </div>
