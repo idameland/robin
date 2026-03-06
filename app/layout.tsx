@@ -19,13 +19,16 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  modal,
 }: {
   children: React.ReactNode;
+  modal: React.ReactNode;
 }) {
   return (
     <html lang="no">
       <body className={`${robotoMono.variable} ${newsreader.variable}`}>
         {children}
+        {modal}
       </body>
     </html>
   );

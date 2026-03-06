@@ -4,7 +4,7 @@ import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import { AnbefalingKort, AnbefalingKortStablet, AnbefalingModal } from "@/components/AnbefalingKort";
-import { anbefalinger, filterKategorier, Anbefaling } from "@/lib/anbefalinger";
+import { anbefalinger, filterKategorier, firmaer, Anbefaling } from "@/lib/anbefalinger";
 
 const serif = { fontFamily: "var(--font-playfair)" };
 const INITIAL_COUNT = 9;
@@ -104,11 +104,13 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {visibleGroups.map((group) =>
-              group.length === 1
-                ? <AnbefalingKort key={group[0].firma} a={group[0]} onClick={() => setValgt({ gruppe: group, idx: 0 })} />
-                : <AnbefalingKortStablet key={group[0].firma} anbefalinger={group} onClick={(gruppe, idx) => setValgt({ gruppe, idx })} />
-            )}
+            {visibleGroups.map((group) => {
+              const slug = firmaer[group[0].firma]?.slug;
+              const href = slug ? `/bedrift/${slug}` : undefined;
+              return group.length === 1
+                ? <AnbefalingKort key={group[0].firma} a={group[0]} href={href} onClick={href ? undefined : () => setValgt({ gruppe: group, idx: 0 })} />
+                : <AnbefalingKortStablet key={group[0].firma} anbefalinger={group} href={href} onClick={href ? undefined : (gruppe, idx) => setValgt({ gruppe, idx })} />;
+            })}
           </div>
           {filtrert.length === 0 && (
             <p className="text-petroleum-muted text-sm py-16 text-center">

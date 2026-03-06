@@ -1,3 +1,24 @@
+export interface FirmaInfo {
+  slug?: string;
+  telefon?: string;
+  epost?: string;
+  instagram?: string;
+  nettside?: string | null;
+  orgnr?: string;
+  bilder?: string[];
+}
+
+export const firmaer: Record<string, FirmaInfo> = {
+  "Haram Møbelsnekkeri": {
+    slug: "haram-mobelsnekkeri",
+    telefon: "41 03 14 90",
+    epost: "andersharam@gmail.com",
+    instagram: "andersharam",
+    nettside: null,
+    orgnr: "935 422 604",
+  },
+};
+
 export interface Anbefaling {
   firma: string;
   kontakt: string;

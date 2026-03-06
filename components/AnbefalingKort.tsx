@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Anbefaling } from "@/lib/anbefalinger";
 
 const serif = { fontFamily: "var(--font-playfair)" };
@@ -21,12 +23,9 @@ export function KategoriTag({ label }: { label: string }) {
   );
 }
 
-export function AnbefalingKort({ a, onClick }: { a: Anbefaling; onClick: () => void }) {
-  return (
-    <div
-      onClick={onClick}
-      className="bg-card-purple p-6 flex flex-col gap-4 cursor-pointer hover:brightness-95 transition-all h-full"
-    >
+export function AnbefalingKort({ a, onClick, href }: { a: Anbefaling; onClick?: () => void; href?: string }) {
+  const inner = (
+    <>
       <div className="flex items-start justify-between gap-3">
         <h2 className="text-[22px] leading-tight text-petroleum" style={serif}>
           {a.firma}
@@ -46,16 +45,31 @@ export function AnbefalingKort({ a, onClick }: { a: Anbefaling; onClick: () => v
         </div>
         <span className="text-[12px] text-petroleum-muted">{a.dato}</span>
       </div>
+    </>
+  );
+
+  if (href) {
+    return (
+      <Link href={href} className="bg-card-purple p-6 flex flex-col gap-4 hover:brightness-95 transition-all h-full no-underline">
+        {inner}
+      </Link>
+    );
+  }
+
+  return (
+    <div onClick={onClick} className="bg-card-purple p-6 flex flex-col gap-4 cursor-pointer hover:brightness-95 transition-all h-full">
+      {inner}
     </div>
   );
 }
 
-export function AnbefalingKortStablet({ anbefalinger, onClick }: { anbefalinger: Anbefaling[]; onClick: (gruppe: Anbefaling[], idx: number) => void }) {
+export function AnbefalingKortStablet({ anbefalinger, onClick, href }: { anbefalinger: Anbefaling[]; onClick?: (gruppe: Anbefaling[], idx: number) => void; href?: string }) {
   const [idx, setIdx] = useState(0);
   const [showHint, setShowHint] = useState(true);
   const a = anbefalinger[idx];
   const total = anbefalinger.length;
   const touchStartX = useRef<number | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const t = setTimeout(() => setShowHint(false), 4000);
@@ -88,7 +102,7 @@ export function AnbefalingKortStablet({ anbefalinger, onClick }: { anbefalinger:
 
       {/* Kort */}
       <div
-        onClick={() => onClick(anbefalinger, idx)}
+        onClick={() => href ? router.push(href) : onClick?.(anbefalinger, idx)}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
         className="bg-card-purple p-6 flex flex-col gap-4 cursor-pointer hover:brightness-95 transition-all h-full"
