@@ -105,7 +105,12 @@ export default async function BedriftPage({ params }: { params: Promise<{ slug: 
                   href={`mailto:${info.epost}`}
                   style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none" }}
                 >
-                  <span style={{ width: 32, height: 32, borderRadius: "50%", background: "#E0F9F0", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px", flexShrink: 0 }}>✉️</span>
+                  <span style={{ width: 32, height: 32, borderRadius: "50%", background: "#E0F9F0", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#003D50" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="2" y="4" width="20" height="16" rx="2"/>
+                      <polyline points="2,4 12,13 22,4"/>
+                    </svg>
+                  </span>
                   <span style={{ fontSize: "15px", color: "#004E64", fontWeight: 500 }}>{info.epost}</span>
                 </a>
               )}
