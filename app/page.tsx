@@ -11,7 +11,7 @@ const INITIAL_COUNT = 9;
 
 export default function Home() {
   const [aktiv, setAktiv] = useState("Alle");
-  const [valgt, setValgt] = useState<Anbefaling | null>(null);
+  const [valgt, setValgt] = useState<{ gruppe: Anbefaling[]; idx: number } | null>(null);
   const [søk, setSøk] = useState("");
   const [showAll, setShowAll] = useState(false);
 
@@ -104,8 +104,8 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {visibleGroups.map((group) =>
               group.length === 1
-                ? <AnbefalingKort key={group[0].firma} a={group[0]} onClick={() => setValgt(group[0])} />
-                : <AnbefalingKortStablet key={group[0].firma} anbefalinger={group} onClick={(a) => setValgt(a)} />
+                ? <AnbefalingKort key={group[0].firma} a={group[0]} onClick={() => setValgt({ gruppe: group, idx: 0 })} />
+                : <AnbefalingKortStablet key={group[0].firma} anbefalinger={group} onClick={(gruppe, idx) => setValgt({ gruppe, idx })} />
             )}
           </div>
           {filtrert.length === 0 && (
@@ -147,7 +147,7 @@ export default function Home() {
         </div>
       </main>
 
-      {valgt && <AnbefalingModal a={valgt} onClose={() => setValgt(null)} />}
+      {valgt && <AnbefalingModal gruppe={valgt.gruppe} startIdx={valgt.idx} onClose={() => setValgt(null)} />}
     </div>
   );
 }

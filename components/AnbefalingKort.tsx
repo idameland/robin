@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Anbefaling } from "@/lib/anbefalinger";
 
 const serif = { fontFamily: "var(--font-playfair)" };
@@ -50,10 +50,21 @@ export function AnbefalingKort({ a, onClick }: { a: Anbefaling; onClick: () => v
   );
 }
 
-export function AnbefalingKortStablet({ anbefalinger, onClick }: { anbefalinger: Anbefaling[]; onClick: (a: Anbefaling) => void }) {
+export function AnbefalingKortStablet({ anbefalinger, onClick }: { anbefalinger: Anbefaling[]; onClick: (gruppe: Anbefaling[], idx: number) => void }) {
   const [idx, setIdx] = useState(0);
   const a = anbefalinger[idx];
   const total = anbefalinger.length;
+  const touchStartX = useRef<number | null>(null);
+
+  function handleTouchStart(e: React.TouchEvent) {
+    touchStartX.current = e.touches[0].clientX;
+  }
+  function handleTouchEnd(e: React.TouchEvent) {
+    if (touchStartX.current === null) return;
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) setIdx((prev) => diff > 0 ? (prev + 1) % total : (prev - 1 + total) % total);
+    touchStartX.current = null;
+  }
 
   return (
     <div className="stack-wrap relative h-full" style={{ zIndex: 2 }}>
@@ -68,7 +79,9 @@ export function AnbefalingKortStablet({ anbefalinger, onClick }: { anbefalinger:
 
       {/* Kort */}
       <div
-        onClick={() => onClick(a)}
+        onClick={() => onClick(anbefalinger, idx)}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
         className="bg-card-purple p-6 flex flex-col gap-4 cursor-pointer hover:brightness-95 transition-all h-full"
         style={{ position: "relative", zIndex: 2 }}
       >
@@ -113,7 +126,22 @@ export function AnbefalingKortStablet({ anbefalinger, onClick }: { anbefalinger:
   );
 }
 
-export function AnbefalingModal({ a, onClose }: { a: Anbefaling; onClose: () => void }) {
+export function AnbefalingModal({ gruppe, startIdx, onClose }: { gruppe: Anbefaling[]; startIdx: number; onClose: () => void }) {
+  const [idx, setIdx] = useState(startIdx);
+  const a = gruppe[idx];
+  const total = gruppe.length;
+  const touchStartX = useRef<number | null>(null);
+
+  function handleTouchStart(e: React.TouchEvent) {
+    touchStartX.current = e.touches[0].clientX;
+  }
+  function handleTouchEnd(e: React.TouchEvent) {
+    if (touchStartX.current === null) return;
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) setIdx((prev) => diff > 0 ? (prev + 1) % total : (prev - 1 + total) % total);
+    touchStartX.current = null;
+  }
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm"
@@ -122,6 +150,8 @@ export function AnbefalingModal({ a, onClose }: { a: Anbefaling; onClose: () => 
       <div
         className="bg-white w-full max-w-[560px] max-h-[90vh] overflow-y-auto p-8 relative"
         onClick={(e) => e.stopPropagation()}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
       >
         <button
           onClick={onClose}
@@ -129,8 +159,27 @@ export function AnbefalingModal({ a, onClose }: { a: Anbefaling; onClose: () => 
         >
           ✕
         </button>
-        <KategoriTag label={a.kategori} />
-        <h2 className="text-[32px] leading-tight text-petroleum mt-3 mb-1" style={serif}>
+        <div className="flex items-center justify-between mb-3">
+          <KategoriTag label={a.kategori} />
+          {total > 1 && (
+            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+              <div style={{ display: "flex", gap: "3px" }}>
+                {gruppe.map((_, i) => (
+                  <div key={i} style={{ width: 5, height: 5, borderRadius: "50%", background: i === idx ? "#1A1612" : "#E2DDD7" }} />
+                ))}
+              </div>
+              <button
+                onClick={() => setIdx((idx - 1 + total) % total)}
+                style={{ width: 24, height: 24, borderRadius: "50%", border: "1.5px solid #E2DDD7", background: "white", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: "13px", lineHeight: 1 }}
+              >‹</button>
+              <button
+                onClick={() => setIdx((idx + 1) % total)}
+                style={{ width: 24, height: 24, borderRadius: "50%", border: "1.5px solid #E2DDD7", background: "white", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: "13px", lineHeight: 1 }}
+              >›</button>
+            </div>
+          )}
+        </div>
+        <h2 className="text-[32px] leading-tight text-petroleum mt-0 mb-1" style={serif}>
           {a.firma}
         </h2>
         <p className="text-[14px] text-petroleum-muted mb-6">{a.kontakt}</p>
