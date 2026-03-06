@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import { AnbefalingKort, AnbefalingModal } from "@/components/AnbefalingKort";
+import { AnbefalingKort, AnbefalingKortStablet, AnbefalingModal } from "@/components/AnbefalingKort";
 import { anbefalinger, filterKategorier, Anbefaling } from "@/lib/anbefalinger";
 
 const serif = { fontFamily: "var(--font-playfair)" };
@@ -31,8 +31,20 @@ export default function Home() {
     .slice()
     .reverse();
 
-  const visible = showAll ? filtrert : filtrert.slice(0, INITIAL_COUNT);
-  const remaining = filtrert.length - INITIAL_COUNT;
+  // Grupper per firma, bevar rekkefølge på første forekomst
+  const gruppert: Anbefaling[][] = [];
+  const firmaMap = new Map<string, Anbefaling[]>();
+  for (const a of filtrert) {
+    if (!firmaMap.has(a.firma)) {
+      const group: Anbefaling[] = [];
+      firmaMap.set(a.firma, group);
+      gruppert.push(group);
+    }
+    firmaMap.get(a.firma)!.push(a);
+  }
+
+  const visibleGroups = showAll ? gruppert : gruppert.slice(0, INITIAL_COUNT);
+  const remaining = gruppert.length - INITIAL_COUNT;
 
   return (
     <div className="min-h-screen bg-white">
@@ -90,9 +102,11 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {visible.map((a, i) => (
-              <AnbefalingKort key={i} a={a} onClick={() => setValgt(a)} />
-            ))}
+            {visibleGroups.map((group) =>
+              group.length === 1
+                ? <AnbefalingKort key={group[0].firma} a={group[0]} onClick={() => setValgt(group[0])} />
+                : <AnbefalingKortStablet key={group[0].firma} anbefalinger={group} onClick={(a) => setValgt(a)} />
+            )}
           </div>
           {filtrert.length === 0 && (
             <p className="text-petroleum-muted text-sm py-16 text-center">
@@ -102,7 +116,7 @@ export default function Home() {
           {remaining > 0 && !showAll && (
             <div style={{ marginTop: '28px', paddingTop: '24px', borderTop: '1px solid #E2DDD7', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
               <p style={{ fontSize: '11px', color: '#9A9088', fontFamily: 'Roboto Mono' }}>
-                Viser {INITIAL_COUNT} av {filtrert.length} anbefalinger
+                Viser {INITIAL_COUNT} av {gruppert.length} firmaer
               </p>
               <button
                 onClick={() => setShowAll(true)}
@@ -125,9 +139,9 @@ export default function Home() {
               </button>
             </div>
           )}
-          {showAll && filtrert.length > INITIAL_COUNT && (
+          {showAll && gruppert.length > INITIAL_COUNT && (
             <p style={{ textAlign: 'center', fontSize: '11px', color: '#9A9088', fontStyle: 'italic', marginTop: '20px' }}>
-              ✓ Du har sett alle {filtrert.length} anbefalingene
+              ✓ Du har sett alle {gruppert.length} firmaene
             </p>
           )}
         </div>

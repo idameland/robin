@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { Anbefaling } from "@/lib/anbefalinger";
 
 const serif = { fontFamily: "var(--font-playfair)" };
@@ -42,6 +45,69 @@ export function AnbefalingKort({ a, onClick }: { a: Anbefaling; onClick: () => v
           <span className="text-[12px] text-petroleum-muted">{a.anbefaler}</span>
         </div>
         <span className="text-[12px] text-petroleum-muted">{a.dato}</span>
+      </div>
+    </div>
+  );
+}
+
+export function AnbefalingKortStablet({ anbefalinger, onClick }: { anbefalinger: Anbefaling[]; onClick: (a: Anbefaling) => void }) {
+  const [idx, setIdx] = useState(0);
+  const a = anbefalinger[idx];
+  const total = anbefalinger.length;
+
+  return (
+    <div className="stack-wrap relative" style={{ zIndex: 2 }}>
+      {/* Badge */}
+      <div style={{
+        position: "absolute", top: -10, right: 6, zIndex: 10,
+        background: "#1A1612", color: "white", borderRadius: "100px",
+        fontSize: "9px", fontWeight: 700, padding: "3px 8px", whiteSpace: "nowrap",
+      }}>
+        {total} anbefalinger
+      </div>
+
+      {/* Kort */}
+      <div
+        onClick={() => onClick(a)}
+        className="bg-card-purple p-6 flex flex-col gap-4 cursor-pointer hover:brightness-95 transition-all"
+        style={{ position: "relative", zIndex: 2 }}
+      >
+        <div className="flex items-start justify-between gap-3">
+          <h2 className="text-[22px] leading-tight text-petroleum" style={serif}>
+            {a.firma}
+          </h2>
+          <KategoriTag label={a.kategori} />
+        </div>
+        <p className="text-[13px] text-petroleum-muted">{a.jobb}</p>
+        <p className="text-[14px] text-petroleum leading-[1.6] flex-1">
+          {kortSitat(a.sitat)}
+        </p>
+        <div className="flex items-center justify-between pt-2 border-t border-black/8">
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-full bg-petroleum flex items-center justify-center text-white text-[10px] font-bold shrink-0">
+              {initialer(a.anbefaler)}
+            </div>
+            <span className="text-[12px] text-petroleum-muted">{a.anbefaler}</span>
+          </div>
+          {/* Navigasjon */}
+          <div style={{ display: "flex", alignItems: "center", gap: "6px" }} onClick={(e) => e.stopPropagation()}>
+            {/* Prikker */}
+            <div style={{ display: "flex", gap: "3px" }}>
+              {anbefalinger.map((_, i) => (
+                <div key={i} style={{ width: 5, height: 5, borderRadius: "50%", background: i === idx ? "#1A1612" : "#E2DDD7" }} />
+              ))}
+            </div>
+            {/* Piler */}
+            <button
+              onClick={() => setIdx((idx - 1 + total) % total)}
+              style={{ width: 20, height: 20, borderRadius: "50%", border: "1.5px solid #E2DDD7", background: "white", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: "11px", lineHeight: 1 }}
+            >‹</button>
+            <button
+              onClick={() => setIdx((idx + 1) % total)}
+              style={{ width: 20, height: 20, borderRadius: "50%", border: "1.5px solid #E2DDD7", background: "white", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: "11px", lineHeight: 1 }}
+            >›</button>
+          </div>
+        </div>
       </div>
     </div>
   );

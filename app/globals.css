@@ -18,3 +18,26 @@ body {
   font-family: var(--font-dm-sans), sans-serif;
   color: #1A1612;
 }
+
+.stack-wrap::before {
+  content: '';
+  position: absolute;
+  bottom: 4px; left: 4px; right: -4px;
+  height: calc(100% - 12px);
+  background: white;
+  border: 1.5px solid #E2DDD7;
+  border-radius: 8px;
+  z-index: 1;
+  transform: rotate(1.5deg);
+}
+.stack-wrap::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 8px; right: -8px;
+  height: calc(100% - 12px);
+  background: white;
+  border: 1.5px solid #E2DDD7;
+  border-radius: 8px;
+  z-index: 0;
+  transform: rotate(3deg);
+}
