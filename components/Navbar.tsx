@@ -9,11 +9,6 @@ const FLY_HEIGHT  = 14;  // max Y offset during flight
 const FLY_WAVES   = 3;   // wing-beat cycles per trip
 const FLY_DURATION = 1800; // ms per one-way trip
 
-const NOTES = [
-  { char: "♪", size: 11, offsetX: 4,  delay: 100 },
-  { char: "♫", size: 15, offsetX: 18, delay: 180 },
-  { char: "♩", size: 10, offsetX: -4, delay: 60  },
-];
 
 function BirdSVG({ wingRef }: { wingRef: React.RefObject<SVGGElement | null> }) {
   return (
@@ -47,7 +42,7 @@ export default function Navbar() {
   const btnRef      = useRef<HTMLDivElement>(null);
   const birdRef     = useRef<HTMLDivElement>(null);
   const wingRef     = useRef<SVGGElement>(null);
-  const noteRefs    = useRef<(HTMLSpanElement | null)[]>([]);
+
 
   useEffect(() => {
     const nav  = navRef.current;
@@ -96,20 +91,6 @@ export default function Navbar() {
       );
     }
 
-    function fireNotes() {
-      noteRefs.current.forEach((el, i) => {
-        if (!el) return;
-        el.animate(
-          [
-            { opacity: 0, transform: "translate(0px, 0px)"     },
-            { opacity: 1, transform: "translate(10px, -8px)", offset: 0.25 },
-            { opacity: 1, transform: "translate(22px, 4px)",  offset: 0.60 },
-            { opacity: 0, transform: "translate(30px, 22px)"   },
-          ],
-          { duration: 900, delay: NOTES[i].delay, easing: "ease-in-out" }
-        );
-      });
-    }
 
     async function bump(atX: number) {
       birdEl.animate(
@@ -134,7 +115,6 @@ export default function Navbar() {
         ],
         { duration: 550, delay: 390, easing: "ease-out" }
       );
-      fireNotes();
       await delay(900);
     }
 
@@ -233,24 +213,6 @@ export default function Navbar() {
           }}
         >
           <BirdSVG wingRef={wingRef} />
-          {NOTES.map((note, i) => (
-            <span
-              key={i}
-              ref={(el) => { noteRefs.current[i] = el; }}
-              style={{
-                position: "absolute",
-                top: 0,
-                left: `calc(50% + ${note.offsetX}px)`,
-                fontSize: note.size,
-                color: "#C8400E",
-                opacity: 0,
-                pointerEvents: "none",
-                userSelect: "none",
-              }}
-            >
-              {note.char}
-            </span>
-          ))}
         </div>
 
         <div ref={btnRef}>

@@ -3,16 +3,9 @@
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 
-const NOTES = [
-  { char: "♪", size: 11, offsetX: 4,  delay1: 100, delay2: 0   },
-  { char: "♫", size: 15, offsetX: 18, delay1: 180, delay2: 80  },
-  { char: "♩", size: 10, offsetX: -4, delay1: 60,  delay2: 140 },
-];
-
 export default function CTAButton() {
   const birdRef    = useRef<HTMLDivElement>(null);
   const btnWrapRef = useRef<HTMLDivElement>(null);
-  const noteRefs   = useRef<(HTMLSpanElement | null)[]>([]);
 
   useEffect(() => {
     const birdEl = birdRef.current;
@@ -44,19 +37,6 @@ export default function CTAButton() {
         { duration: 550, delay: 390, easing: "ease-out" }
       );
 
-      noteRefs.current.forEach((el, i) => {
-        if (!el) return;
-        const delay = bumpIndex === 0 ? NOTES[i].delay1 : NOTES[i].delay2;
-        el.animate(
-          [
-            { opacity: 0, transform: "translate(0px, 0px)"       },
-            { opacity: 1, transform: "translate(10px, -8px)", offset: 0.25 },
-            { opacity: 1, transform: "translate(22px, 4px)",  offset: 0.6  },
-            { opacity: 0, transform: "translate(30px, 22px)"      },
-          ],
-          { duration: 900, delay, easing: "ease-in-out" }
-        );
-      });
     }
 
     const t1 = setTimeout(() => bump(0), 300);
@@ -69,26 +49,6 @@ export default function CTAButton() {
 
       {/* Fugl */}
       <div style={{ position: "relative", width: 28, height: 28, flexShrink: 0 }}>
-        {/* Notar */}
-        {NOTES.map((note, i) => (
-          <span
-            key={i}
-            ref={(el) => { noteRefs.current[i] = el; }}
-            style={{
-              position: "absolute",
-              top: 2,
-              left: `calc(50% + ${note.offsetX}px)`,
-              fontSize: note.size,
-              color: "#C8400E",
-              opacity: 0,
-              pointerEvents: "none",
-              userSelect: "none",
-            }}
-          >
-            {note.char}
-          </span>
-        ))}
-
         {/* Robin-SVG */}
         <div
           ref={birdRef}
