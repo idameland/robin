@@ -1,6 +1,6 @@
 import Link from "next/link";
-import Image from "next/image";
 import Navbar from "@/components/Navbar";
+import AnimertTakkFugl from "@/components/AnimertTakkFugl";
 
 const serif = { fontFamily: "var(--font-playfair)" };
 
@@ -14,7 +14,7 @@ export default function TakkPage() {
 
           {/* Fugl i mintgrønn sirkel */}
           <div className="w-20 h-20 rounded-full bg-mint flex items-center justify-center mx-auto mb-8">
-            <Image src="/robin-ikon.svg" alt="" width={44} height={44} aria-hidden="true" />
+            <AnimertTakkFugl />
           </div>
 
           {/* Overskrift */}
