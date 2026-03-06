@@ -84,7 +84,9 @@ export default function Home() {
 
           <div className="flex gap-2 flex-wrap mb-8">
             {filterKategorier.map((kat) => {
-              const antall = kat === "Alle" ? anbefalinger.length : anbefalinger.filter((a) => a.kategori === kat).length;
+              const antall = kat === "Alle"
+                ? new Set(anbefalinger.map((a) => a.firma)).size
+                : new Set(anbefalinger.filter((a) => a.kategori === kat).map((a) => a.firma)).size;
               return (
                 <button
                   key={kat}
