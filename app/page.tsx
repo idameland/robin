@@ -54,7 +54,7 @@ export default function Home() {
         <div className="mt-8 pt-2 md:mt-2 md:pt-4">
           <h2
             className="text-[28px] md:text-[36px] text-petroleum leading-tight mb-5"
-            style={{ fontFamily: "var(--font-playfair)", fontWeight: 400 }}
+            style={{ fontFamily: "var(--font-playfair)", fontWeight: 700 }}
           >
             Anbefalinger fra naboer som har kvitret
           </h2>
