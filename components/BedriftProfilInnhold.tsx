@@ -11,11 +11,13 @@ export default function BedriftProfilInnhold({
   info,
   firmaAnbefalinger,
   kategori,
+  isModal = false,
 }: {
   firmanavn: string;
   info: FirmaInfo;
   firmaAnbefalinger: Anbefaling[];
   kategori: string;
+  isModal?: boolean;
 }) {
   return (
     <>
@@ -151,11 +153,13 @@ export default function BedriftProfilInnhold({
             ))}
           </div>
         </section>
-        <div className="mt-12 pb-10">
-          <a href="/" style={{ fontSize: "13px", color: "#6B6058", textDecoration: "none" }}>
-            ← Tilbake til forsiden
-          </a>
-        </div>
+        {!isModal && (
+          <div className="mt-12 pb-10">
+            <a href="/" style={{ fontSize: "13px", color: "#6B6058", textDecoration: "none" }}>
+              ← Tilbake til forsiden
+            </a>
+          </div>
+        )}
       </div>
     </>
   );

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import { AnbefalingKort, AnbefalingKortStablet, AnbefalingModal } from "@/components/AnbefalingKort";
+import BedriftModal from "@/components/BedriftModal";
 import { anbefalinger, filterKategorier, firmaer, Anbefaling } from "@/lib/anbefalinger";
 
 const serif = { fontFamily: "var(--font-playfair)" };

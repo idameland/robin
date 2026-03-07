@@ -220,8 +220,8 @@ export default function Navbar() {
             href="/send-anbefaling"
             className="bg-card-yellow text-petroleum text-sm font-medium px-3 py-2 rounded hover:brightness-95 transition-all tracking-wide"
           >
-            <span className="sm:hidden">Send inn anbefaling</span>
-            <span className="hidden sm:inline">Send inn din anbefaling</span>
+            <span className="sm:hidden">Del din anbefaling</span>
+            <span className="hidden sm:inline">Del din anbefaling</span>
           </Link>
         </div>
       </div>
