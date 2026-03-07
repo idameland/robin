@@ -20,7 +20,7 @@ export default function PlussProfilInnhold({ profil }: { profil: PlussProfilData
   return (
     <>
       {/* ── 1. HERO ─────────────────────────────────────────────── */}
-      <div style={{ background: "#004E64" }}>
+      <div style={{ background: "#1E1C08" }}>
         <div className="max-w-2xl mx-auto px-6 py-10 md:py-14">
           {/* Badge */}
           <div style={{ marginBottom: "20px" }}>
