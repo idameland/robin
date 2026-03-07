@@ -268,7 +268,7 @@ export function AnbefalingModal({ gruppe, startIdx, onClose }: { gruppe: Anbefal
               Er du {a.firma}?
             </p>
             <p style={{ fontSize: "12px", color: "#6B6058", lineHeight: "1.5" }}>
-              Oppgrader til Pluss for full profil med egne anbefalinger og bedre synlighet.
+              Oppgrader til PLUSS for å få full profil med din kontaktinformasjon, bilder og bedre synlighet i søkemotorer.
             </p>
           </div>
           <a
