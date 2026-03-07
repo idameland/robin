@@ -20,13 +20,13 @@ export default function PlussProfilInnhold({ profil }: { profil: PlussProfilData
   return (
     <>
       {/* ── 1. HERO ─────────────────────────────────────────────── */}
-      <div style={{ background: "#F5F5C0" }}>
+      <div style={{ background: "#004E64" }}>
         <div className="max-w-2xl mx-auto px-6 py-10 md:py-14">
           {/* Badge */}
           <div style={{ marginBottom: "20px" }}>
             <span style={{
               display: "inline-block",
-              background: "#1A1A0A", color: "#F5F5C0",
+              background: "rgba(159,255,203,0.15)", color: "#9FFFCB",
               fontSize: "10px", fontWeight: 700,
               letterSpacing: "0.08em", textTransform: "uppercase",
               padding: "4px 12px", borderRadius: "100px",
@@ -39,9 +39,9 @@ export default function PlussProfilInnhold({ profil }: { profil: PlussProfilData
           {/* Avatar */}
           <div style={{
             width: 64, height: 64, borderRadius: "12px",
-            background: "#1A1A0A",
+            background: "rgba(255,255,255,0.12)",
             display: "flex", alignItems: "center", justifyContent: "center",
-            fontSize: "22px", fontWeight: 700, color: "#F5F5C0",
+            fontSize: "22px", fontWeight: 700, color: "white",
             marginBottom: "18px",
           }}>
             {initialer(profil.firmanavn)}
@@ -50,34 +50,34 @@ export default function PlussProfilInnhold({ profil }: { profil: PlussProfilData
           {/* Firmanavn */}
           <h1
             className="text-[32px] md:text-[42px] leading-tight font-normal mb-2"
-            style={{ ...serif, color: "#1A1A0A" }}
+            style={{ ...serif, color: "white" }}
           >
             {profil.firmanavn}
           </h1>
 
           {/* Fag · Sted */}
-          <p style={{ ...mono, fontSize: "14px", color: "#4A4A18", marginBottom: "16px" }}>
+          <p style={{ ...mono, fontSize: "14px", color: "#C5E4EA", marginBottom: "16px" }}>
             {profil.fag} · {profil.sted}
           </p>
 
           {/* Chips */}
           <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
             <span style={{
-              background: "rgba(26,26,10,0.08)", color: "#1A1A0A",
+              background: "rgba(255,255,255,0.12)", color: "white",
               borderRadius: "100px", fontSize: "12px", fontWeight: 600,
               padding: "5px 12px", ...mono,
             }}>
               <Stjerner antall={profil.stjerner} /> {profil.stjerner}.0
             </span>
             <span style={{
-              background: "rgba(26,26,10,0.08)", color: "#1A1A0A",
+              background: "rgba(255,255,255,0.12)", color: "white",
               borderRadius: "100px", fontSize: "12px", fontWeight: 600,
               padding: "5px 12px", ...mono,
             }}>
               📍 {profil.sted}
             </span>
             <span style={{
-              background: "rgba(26,26,10,0.08)", color: "#1A1A0A",
+              background: "rgba(255,255,255,0.12)", color: "white",
               borderRadius: "100px", fontSize: "12px", fontWeight: 600,
               padding: "5px 12px", ...mono,
             }}>
@@ -134,7 +134,7 @@ export default function PlussProfilInnhold({ profil }: { profil: PlussProfilData
                   borderTop: i === 0 ? "1px solid #E8E4D8" : undefined,
                   borderBottom: "1px solid #E8E4D8",
                   padding: "20px 0 20px 20px",
-                  borderLeft: "3px solid #D4CC40",
+                  borderLeft: "3px solid #9FFFCB",
                 }}>
                   <p style={{ ...serif, fontSize: "17px", lineHeight: "1.7", color: "#1A1814", marginBottom: "12px" }}>
                     «{a.sitat}»
