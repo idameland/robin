@@ -2,9 +2,16 @@
 
 import { useEffect, useCallback } from "react";
 import BedriftProfilInnhold from "@/components/BedriftProfilInnhold";
+import PlussProfilInnhold from "@/components/PlussProfilInnhold";
 import { anbefalinger, firmaer, FirmaInfo, Anbefaling } from "@/lib/anbefalinger";
+import { plussProfiler, PlussProfilData } from "@/lib/pluss";
 
 export default function BedriftModal({ slug, onClose }: { slug: string; onClose: () => void }) {
+  const pluss = plussProfiler.find((p) => p.slug === slug);
+  if (pluss) {
+    return <ModalWrapper slug={slug} onClose={onClose}><PlussProfilInnhold profil={pluss} /></ModalWrapper>;
+  }
+
   const firmaEntry = Object.entries(firmaer).find(([, f]) => f.slug === slug);
   if (!firmaEntry) return null;
 
@@ -15,27 +22,19 @@ export default function BedriftModal({ slug, onClose }: { slug: string; onClose:
   const kategori = firmaAnbefalinger[0].kategori;
 
   return (
-    <BedriftModalInnhold
-      slug={slug}
-      firmanavn={firmanavn}
-      info={info}
-      firmaAnbefalinger={firmaAnbefalinger}
-      kategori={kategori}
-      onClose={onClose}
-    />
+    <ModalWrapper slug={slug} onClose={onClose}>
+      <BedriftProfilInnhold
+        firmanavn={firmanavn}
+        info={info}
+        firmaAnbefalinger={firmaAnbefalinger}
+        kategori={kategori}
+        isModal
+      />
+    </ModalWrapper>
   );
 }
 
-function BedriftModalInnhold({
-  slug, firmanavn, info, firmaAnbefalinger, kategori, onClose,
-}: {
-  slug: string;
-  firmanavn: string;
-  info: FirmaInfo;
-  firmaAnbefalinger: Anbefaling[];
-  kategori: string;
-  onClose: () => void;
-}) {
+function ModalWrapper({ slug, onClose, children }: { slug: string; onClose: () => void; children: React.ReactNode }) {
   const handleClose = useCallback(() => {
     window.history.pushState(null, "", "/");
     onClose();
@@ -60,13 +59,7 @@ function BedriftModalInnhold({
 
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center" }}>
-      {/* Backdrop */}
-      <div
-        onClick={handleClose}
-        style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.5)" }}
-      />
-
-      {/* Modal */}
+      <div onClick={handleClose} style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.5)" }} />
       <div
         className="sm:rounded-xl sm:max-h-[85vh] sm:w-[600px]"
         style={{
@@ -78,7 +71,6 @@ function BedriftModalInnhold({
           animation: "modalFadeIn 0.25s ease-out",
         }}
       >
-        {/* Close button over teal header */}
         <button
           onClick={handleClose}
           style={{
@@ -92,16 +84,8 @@ function BedriftModalInnhold({
         >
           ✕
         </button>
-
-        {/* Scrollable content */}
         <div style={{ overflowY: "auto", flex: 1 }}>
-          <BedriftProfilInnhold
-            firmanavn={firmanavn}
-            info={info}
-            firmaAnbefalinger={firmaAnbefalinger}
-            kategori={kategori}
-            isModal
-          />
+          {children}
         </div>
       </div>
     </div>
