@@ -153,35 +153,6 @@ export default function BedriftProfilInnhold({
             ))}
           </div>
         </section>
-        {/* Pluss-teaser */}
-        <div style={{
-          marginTop: "32px",
-          padding: "16px 20px",
-          background: "#FFFBF0",
-          border: "1.5px solid #F5C842",
-          borderRadius: "8px",
-          display: "flex", alignItems: "center", justifyContent: "space-between", gap: "16px",
-        }}>
-          <div>
-            <p style={{ fontSize: "14px", fontWeight: 700, color: "#1A1612", marginBottom: "4px" }}>
-              Er du {firmanavn}?
-            </p>
-            <p style={{ fontSize: "13px", color: "#6B6058", lineHeight: "1.5" }}>
-              Oppgrader til Pluss for full profil med egne anbefalinger og bedre synlighet.
-            </p>
-          </div>
-          <a
-            href="/pluss"
-            style={{
-              flexShrink: 0,
-              fontSize: "13px", fontWeight: 700,
-              color: "#B07C00", textDecoration: "none", whiteSpace: "nowrap",
-            }}
-          >
-            Les mer →
-          </a>
-        </div>
-
         {!isModal && (
           <div className="mt-12 pb-10">
             <a href="/" style={{ fontSize: "13px", color: "#6B6058", textDecoration: "none" }}>

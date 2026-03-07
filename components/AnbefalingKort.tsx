@@ -253,6 +253,35 @@ export function AnbefalingModal({ gruppe, startIdx, onClose }: { gruppe: Anbefal
           </div>
           <span className="text-[12px] text-petroleum-muted">{a.dato}</span>
         </div>
+
+        {/* Pluss-teaser */}
+        <div style={{
+          marginTop: "20px",
+          padding: "14px 18px",
+          background: "#FFFBF0",
+          border: "1.5px solid #F5C842",
+          borderRadius: "8px",
+          display: "flex", alignItems: "center", justifyContent: "space-between", gap: "16px",
+        }}>
+          <div>
+            <p style={{ fontSize: "13px", fontWeight: 700, color: "#1A1612", marginBottom: "3px" }}>
+              Er du {a.firma}?
+            </p>
+            <p style={{ fontSize: "12px", color: "#6B6058", lineHeight: "1.5" }}>
+              Oppgrader til Pluss for full profil med egne anbefalinger og bedre synlighet.
+            </p>
+          </div>
+          <a
+            href="/pluss"
+            style={{
+              flexShrink: 0,
+              fontSize: "12px", fontWeight: 700,
+              color: "#B07C00", textDecoration: "none", whiteSpace: "nowrap",
+            }}
+          >
+            Les mer →
+          </a>
+        </div>
       </div>
     </div>
   );
