@@ -20,13 +20,13 @@ export default function PlussProfilInnhold({ profil }: { profil: PlussProfilData
   return (
     <>
       {/* ── 1. HERO ─────────────────────────────────────────────── */}
-      <div style={{ background: "#1E1C08" }}>
+      <div style={{ background: "#FFFFFF" }}>
         <div className="max-w-2xl mx-auto px-6 py-10 md:py-14">
           {/* Badge */}
           <div style={{ marginBottom: "20px" }}>
             <span style={{
               display: "inline-block",
-              background: "rgba(159,255,203,0.15)", color: "#9FFFCB",
+              background: "#9FFFCB", color: "#004E64",
               fontSize: "10px", fontWeight: 700,
               letterSpacing: "0.08em", textTransform: "uppercase",
               padding: "4px 12px", borderRadius: "100px",
@@ -39,7 +39,7 @@ export default function PlussProfilInnhold({ profil }: { profil: PlussProfilData
           {/* Avatar */}
           <div style={{
             width: 64, height: 64, borderRadius: "12px",
-            background: "rgba(255,255,255,0.12)",
+            background: "#004E64",
             display: "flex", alignItems: "center", justifyContent: "center",
             fontSize: "22px", fontWeight: 700, color: "white",
             marginBottom: "18px",
@@ -50,34 +50,34 @@ export default function PlussProfilInnhold({ profil }: { profil: PlussProfilData
           {/* Firmanavn */}
           <h1
             className="text-[32px] md:text-[42px] leading-tight font-normal mb-2"
-            style={{ ...serif, color: "white" }}
+            style={{ ...serif, color: "#1A1612" }}
           >
             {profil.firmanavn}
           </h1>
 
           {/* Fag · Sted */}
-          <p style={{ ...mono, fontSize: "14px", color: "#C5E4EA", marginBottom: "16px" }}>
+          <p style={{ ...mono, fontSize: "14px", color: "#6B6058", marginBottom: "16px" }}>
             {profil.fag} · {profil.sted}
           </p>
 
           {/* Chips */}
           <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
             <span style={{
-              background: "rgba(255,255,255,0.12)", color: "white",
+              background: "#F0EAF5", color: "#1A1612",
               borderRadius: "100px", fontSize: "12px", fontWeight: 600,
               padding: "5px 12px", ...mono,
             }}>
               <Stjerner antall={profil.stjerner} /> {profil.stjerner}.0
             </span>
             <span style={{
-              background: "rgba(255,255,255,0.12)", color: "white",
+              background: "#F0EAF5", color: "#1A1612",
               borderRadius: "100px", fontSize: "12px", fontWeight: 600,
               padding: "5px 12px", ...mono,
             }}>
               📍 {profil.sted}
             </span>
             <span style={{
-              background: "rgba(255,255,255,0.12)", color: "white",
+              background: "#F0EAF5", color: "#1A1612",
               borderRadius: "100px", fontSize: "12px", fontWeight: 600,
               padding: "5px 12px", ...mono,
             }}>
