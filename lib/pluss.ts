@@ -28,7 +28,7 @@ export interface PlussProfilData {
 
 export const plussProfiler: PlussProfilData[] = [
   {
-    slug: "haram-ålesund",
+    slug: "haram-mobelsnekkeri",
     fagSlug: "mobelsnekkeri",
     firmanavn: "Haram Møbelsnekkeri",
     kontaktperson: "Anders Haram",

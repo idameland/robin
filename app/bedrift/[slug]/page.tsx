@@ -1,7 +1,9 @@
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import BedriftProfilInnhold from "@/components/BedriftProfilInnhold";
+import PlussProfilInnhold from "@/components/PlussProfilInnhold";
 import { anbefalinger, firmaer } from "@/lib/anbefalinger";
+import { plussProfiler } from "@/lib/pluss";
 
 const serif = { fontFamily: "var(--font-playfair)" };
 
@@ -14,6 +16,23 @@ export function generateStaticParams() {
 export default async function BedriftPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
 
+  // Sjekk om dette er en Pluss-profil
+  const pluss = plussProfiler.find((p) => p.slug === slug);
+  if (pluss) {
+    return (
+      <div className="min-h-screen bg-white flex flex-col">
+        <Navbar />
+        <main className="flex-1">
+          <PlussProfilInnhold profil={pluss} />
+        </main>
+        <footer className="border-t border-black/8 px-6 py-5">
+          <span className="text-petroleum-muted text-[15px]" style={serif}>Robin</span>
+        </footer>
+      </div>
+    );
+  }
+
+  // Vanlig bedriftsprofil
   const firmaEntry = Object.entries(firmaer).find(([, f]) => f.slug === slug);
   if (!firmaEntry) notFound();
 
