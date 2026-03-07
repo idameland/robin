@@ -6,6 +6,7 @@ import Hero from "@/components/Hero";
 import { AnbefalingKort, AnbefalingKortStablet, AnbefalingModal } from "@/components/AnbefalingKort";
 import BedriftModal from "@/components/BedriftModal";
 import { anbefalinger, filterKategorier, firmaer, Anbefaling } from "@/lib/anbefalinger";
+import { plussProfiler } from "@/lib/pluss";
 
 const serif = { fontFamily: "var(--font-playfair)" };
 const INITIAL_COUNT = 9;
@@ -108,9 +109,11 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {visibleGroups.map((group) => {
               const slug = firmaer[group[0].firma]?.slug;
+              const erPluss = slug ? plussProfiler.some((p) => p.slug === slug) : false;
+              const href = erPluss && slug ? `/bedrift/${slug}` : undefined;
               return group.length === 1
-                ? <AnbefalingKort key={group[0].firma} a={group[0]} onClick={slug ? () => setModalSlug(slug) : () => setValgt({ gruppe: group, idx: 0 })} />
-                : <AnbefalingKortStablet key={group[0].firma} anbefalinger={group} onClick={slug ? () => setModalSlug(slug) : (gruppe, idx) => setValgt({ gruppe, idx })} />;
+                ? <AnbefalingKort key={group[0].firma} a={group[0]} href={href} onClick={!href ? (slug ? () => setModalSlug(slug) : () => setValgt({ gruppe: group, idx: 0 })) : undefined} />
+                : <AnbefalingKortStablet key={group[0].firma} anbefalinger={group} href={href} onClick={!href ? (slug ? () => setModalSlug(slug) : (gruppe, idx) => setValgt({ gruppe, idx })) : undefined} />;
             })}
           </div>
           {filtrert.length === 0 && (
