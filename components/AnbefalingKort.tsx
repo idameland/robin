@@ -275,7 +275,7 @@ export function AnbefalingModal({ gruppe, startIdx, onClose }: { gruppe: Anbefal
               color: "#B07C00", textDecoration: "underline",
             }}
           >
-            Les mer →
+            Les mer om PLUSS-profil →
           </a>
         </div>
       </div>
