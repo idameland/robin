@@ -15,6 +15,7 @@ export default function Home() {
   const [valgt, setValgt] = useState<{ gruppe: Anbefaling[]; idx: number } | null>(null);
   const [søk, setSøk] = useState("");
   const [showAll, setShowAll] = useState(false);
+  const [modalSlug, setModalSlug] = useState<string | null>(null);
 
   const filtrert = anbefalinger
     .filter((a) => aktiv === "Alle" || a.kategori === aktiv)
@@ -107,10 +108,9 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {visibleGroups.map((group) => {
               const slug = firmaer[group[0].firma]?.slug;
-              const href = slug ? `/bedrift/${slug}` : undefined;
               return group.length === 1
-                ? <AnbefalingKort key={group[0].firma} a={group[0]} href={href} onClick={href ? undefined : () => setValgt({ gruppe: group, idx: 0 })} />
-                : <AnbefalingKortStablet key={group[0].firma} anbefalinger={group} href={href} onClick={href ? undefined : (gruppe, idx) => setValgt({ gruppe, idx })} />;
+                ? <AnbefalingKort key={group[0].firma} a={group[0]} onClick={slug ? () => setModalSlug(slug) : () => setValgt({ gruppe: group, idx: 0 })} />
+                : <AnbefalingKortStablet key={group[0].firma} anbefalinger={group} onClick={slug ? () => setModalSlug(slug) : (gruppe, idx) => setValgt({ gruppe, idx })} />;
             })}
           </div>
           {filtrert.length === 0 && (
@@ -153,6 +153,7 @@ export default function Home() {
       </main>
 
       {valgt && <AnbefalingModal gruppe={valgt.gruppe} startIdx={valgt.idx} onClose={() => setValgt(null)} />}
+      {modalSlug && <BedriftModal slug={modalSlug} onClose={() => setModalSlug(null)} />}
     </div>
   );
 }
